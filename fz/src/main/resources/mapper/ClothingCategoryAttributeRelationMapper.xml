@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.mapper.ClothingCategoryAttributeRelationMapper">
+  <resultMap id="BaseResultMap" type="com.xhm.fz.entity.ClothingCategoryAttributeRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="clothing_category_id" jdbcType="BIGINT" property="clothingCategoryId" />
+    <result column="clothing_attribute_id" jdbcType="BIGINT" property="clothingAttributeId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, clothing_category_id, clothing_attribute_id
+  </sql>
+  <select id="selectByExample" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from clothing_category_attribute_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from clothing_category_attribute_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from clothing_category_attribute_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelationExample">
+    delete from clothing_category_attribute_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelation">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into clothing_category_attribute_relation (clothing_category_id, clothing_attribute_id
+      )
+    values (#{clothingCategoryId,jdbcType=BIGINT}, #{clothingAttributeId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelation">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into clothing_category_attribute_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clothingCategoryId != null">
+        clothing_category_id,
+      </if>
+      <if test="clothingAttributeId != null">
+        clothing_attribute_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clothingCategoryId != null">
+        #{clothingCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="clothingAttributeId != null">
+        #{clothingAttributeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelationExample" resultType="java.lang.Long">
+    select count(*) from clothing_category_attribute_relation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update clothing_category_attribute_relation
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.clothingCategoryId != null">
+        clothing_category_id = #{record.clothingCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.clothingAttributeId != null">
+        clothing_attribute_id = #{record.clothingAttributeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update clothing_category_attribute_relation
+    set id = #{record.id,jdbcType=BIGINT},
+      clothing_category_id = #{record.clothingCategoryId,jdbcType=BIGINT},
+      clothing_attribute_id = #{record.clothingAttributeId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelation">
+    update clothing_category_attribute_relation
+    <set>
+      <if test="clothingCategoryId != null">
+        clothing_category_id = #{clothingCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="clothingAttributeId != null">
+        clothing_attribute_id = #{clothingAttributeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xhm.fz.entity.ClothingCategoryAttributeRelation">
+    update clothing_category_attribute_relation
+    set clothing_category_id = #{clothingCategoryId,jdbcType=BIGINT},
+      clothing_attribute_id = #{clothingAttributeId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

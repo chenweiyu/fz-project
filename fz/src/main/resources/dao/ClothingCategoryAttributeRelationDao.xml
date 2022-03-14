@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.dao.ClothingCategoryAttributeRelationDao">
+    <!--批量新增回写主键支持-->
+    <insert id="insertList">
+        INSERT INTO clothing_category_attribute_relation (clothing_category_id, clothing_attribute_id) VALUES
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.clothingCategoryId,jdbcType=BIGINT},
+            #{item.clothingAttributeId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+</mapper>

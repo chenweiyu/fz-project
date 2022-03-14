@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.dao.ClothingDao">
+    <resultMap id="updateInfoMap" type="com.xhm.fz.dto.ClothingResult" extends="com.xhm.fz.mapper.ClothingMapper.ResultMapWithBLOBs">
+        <result column="cateParentId" jdbcType="BIGINT" property="cateParentId" />
+        <collection property="clothingLadderList" columnPrefix="ladder_" resultMap="com.xhm.fz.mapper.ClothingLadderMapper.BaseResultMap">
+        </collection>
+        <collection property="clothingFullReductionList" columnPrefix="full_" resultMap="com.xhm.fz.mapper.ClothingFullReductionMapper.BaseResultMap">
+        </collection>
+        <collection property="memberPriceList" columnPrefix="member_" resultMap="com.xhm.fz.mapper.MemberPriceMapper.BaseResultMap">
+        </collection>
+        <collection property="skuStockList" columnPrefix="sku_" resultMap="com.xhm.fz.mapper.SkuStockMapper.BaseResultMap">
+        </collection>
+        <collection property="clothingAttributeValueList" columnPrefix="attribute_" resultMap="com.xhm.fz.mapper.ClothingAttributeValueMapper.BaseResultMap">
+        </collection>
+        <collection property="subjectClothingRelationList" column="{clothingId=id}" select="selectSubjectClothingRelationByClothingId"/>
+        <collection property="prefrenceAreaClothingRelationList" column="{clothingId=id}" select="selectPrefrenceAreaClothingRelationByClothingId"/>
+
+    </resultMap>
+
+    <select id="getUpdateInfo" resultMap="updateInfoMap">
+        SELECT *,
+            pc.parent_id cateParentId,
+            l.id ladder_id,l.clothing_id ladder_clothing_id,l.discount ladder_discount,l.count ladder_count,l.price ladder_price,
+            pf.id full_id,pf.clothing_id full_clothing_id,pf.full_price full_full_price,pf.reduce_price full_reduce_price,
+            m.id member_id,m.clothing_id member_clothing_id,m.member_level_id member_member_level_id,m.member_price member_member_price,m.member_level_name member_member_level_name,
+            s.id sku_id,s.clothing_id sku_clothing_id,s.price sku_price,s.low_stock sku_low_stock,s.pic sku_pic,s.sale sku_sale,s.sku_code sku_sku_code,s.stock sku_stock,s.sp_data sku_sp_data,
+            a.id attribute_id,a.clothing_id attribute_clothing_id,a.clothing_attribute_id attribute_clothing_attribute_id,a.value attribute_value
+        FROM clothing p
+        LEFT JOIN clothing_category pc on pc.id = p.clothing_category_id
+        LEFT JOIN clothing_ladder l ON p.id = l.clothing_id
+        LEFT JOIN clothing_full_reduction pf ON pf.clothing_id=p.id
+        LEFT JOIN member_price m ON m.clothing_id = p.id
+        LEFT JOIN sku_stock s ON s.clothing_id = p.id
+        LEFT JOIN clothing_attribute_value a ON a.clothing_id=p.id
+        WHERE p.id=#{id};
+    </select>
+    <select id="selectSubjectClothingRelationByClothingId" resultMap="com.xhm.fz.mapper.SubjectClothingRelationMapper.BaseResultMap">
+        select * from subject_clothing_relation where clothing_id=#{clothingId}
+    </select>
+    <select id="selectPrefrenceAreaClothingRelationByClothingId" resultMap="com.xhm.fz.mapper.PrefrenceAreaClothingRelationMapper.BaseResultMap">
+        select * from prefrence_area_clothing_relation where clothing_id=#{clothingId}
+    </select>
+
+</mapper>

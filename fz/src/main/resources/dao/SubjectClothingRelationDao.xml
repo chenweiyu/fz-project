@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.dao.SubjectClothingRelationDao">
+    <insert id="insertList">
+        insert into subject_clothing_relation (subject_id, clothing_id) values
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.subjectId,jdbcType=BIGINT},
+            #{item.clothingId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+</mapper>

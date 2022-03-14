@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.dao.ClothingAttributeDao">
+    <select id="getClothingAttrInfo" resultType="com.xhm.fz.dto.ClothingAttrInfo">
+        SELECT
+            pa.id  attributeId,
+            pac.id attributeCategoryId
+        FROM
+            clothing_category_attribute_relation pcar
+            LEFT JOIN clothing_attribute pa ON pa.id = pcar.clothing_attribute_id
+            LEFT JOIN clothing_attribute_category pac ON pa.clothing_attribute_category_id = pac.id
+        WHERE
+            pcar.clothing_category_id = #{id}
+    </select>
+</mapper>
