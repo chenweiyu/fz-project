@@ -7,21 +7,21 @@
             <div class="total-frame">
               <img :src="img_home_order" class="total-icon" />
               <div class="total-title">今日订单总数</div>
-              <div class="total-value">200</div>
+              <div class="total-value">227</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="total-frame">
               <img :src="img_home_today_amount" class="total-icon" />
               <div class="total-title">今日销售总额</div>
-              <div class="total-value">￥5000.00</div>
+              <div class="total-value">￥5270.27</div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="total-frame">
               <img :src="img_home_yesterday_amount" class="total-icon" />
               <div class="total-title">昨日销售总额</div>
-              <div class="total-value">￥5000.00</div>
+              <div class="total-value">￥5270.27</div>
             </div>
           </el-col>
         </el-row>
@@ -99,16 +99,16 @@
               <div style="padding: 40px">
                 <el-row>
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >100</el-col
+                    >127</el-col
                   >
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >400</el-col
+                    >427</el-col
                   >
                   <el-col :span="6" class="color-danger overview-item-value"
                     >50</el-col
                   >
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >500</el-col
+                    >527</el-col
                   >
                 </el-row>
                 <el-row class="font-medium">
@@ -130,16 +130,16 @@
               <div style="padding: 40px">
                 <el-row>
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >100</el-col
+                    >127</el-col
                   >
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >200</el-col
+                    >227</el-col
                   >
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >1000</el-col
+                    >1270</el-col
                   >
                   <el-col :span="6" class="color-danger overview-item-value"
-                    >5000</el-col
+                    >5270</el-col
                   >
                 </el-row>
                 <el-row class="font-medium">
@@ -169,7 +169,7 @@
               <div>
                 <div style="color: #909399; font-size: 14px">本月订单总数</div>
                 <div style="color: #606266; font-size: 24px; padding: 10px 0">
-                  10000
+                  12727
                 </div>
                 <div>
                   <span class="color-success" style="font-size: 14px"
@@ -181,7 +181,7 @@
               <div style="margin-top: 10px">
                 <div style="color: #909399; font-size: 14px">本周订单总数</div>
                 <div style="color: #606266; font-size: 24px; padding: 10px 0">
-                  1000
+                  1270
                 </div>
                 <div>
                   <span class="color-danger" style="font-size: 14px">-10%</span>
@@ -191,7 +191,7 @@
               <div style="margin-top: 10px">
                 <div style="color: #909399; font-size: 14px">本月销售总额</div>
                 <div style="color: #606266; font-size: 24px; padding: 10px 0">
-                  100000
+                  127270
                 </div>
                 <div>
                   <span class="color-success" style="font-size: 14px"
@@ -203,7 +203,7 @@
               <div style="margin-top: 10px">
                 <div style="color: #909399; font-size: 14px">本周销售总额</div>
                 <div style="color: #606266; font-size: 24px; padding: 10px 0">
-                  50000
+                  52727
                 </div>
                 <div>
                   <span class="color-danger" style="font-size: 14px">-10%</span>
@@ -266,7 +266,7 @@ const DATA_FROM_BACKEND = {
     { date: "2021-11-10", orderCount: 30, orderAmount: 3293 },
     { date: "2021-11-11", orderCount: 20, orderAmount: 2293 },
     { date: "2021-11-12", orderCount: 80, orderAmount: 8293 },
-    { date: "2021-11-13", orderCount: 100, orderAmount: 10293 },
+    { date: "2021-11-13", orderCount: 127, orderAmount: 10293 },
     { date: "2021-11-14", orderCount: 10, orderAmount: 1293 },
     { date: "2021-11-15", orderCount: 40, orderAmount: 4293 },
   ],
@@ -285,7 +285,7 @@ export default {
               start.setFullYear(2021);
               start.setMonth(10);
               start.setDate(1);
-              end.setTime(start.getTime() + 3600 * 1000 * 24 * 7);
+              end.setTime(start.getTime() + 3627 * 1270 * 24 * 7);
               picker.$emit("pick", [start, end]);
             },
           },
@@ -297,7 +297,7 @@ export default {
               start.setFullYear(2021);
               start.setMonth(10);
               start.setDate(1);
-              end.setTime(start.getTime() + 3600 * 1000 * 24 * 30);
+              end.setTime(start.getTime() + 3627 * 1270 * 24 * 30);
               picker.$emit("pick", [start, end]);
             },
           },
@@ -335,7 +335,7 @@ export default {
       start.setMonth(10);
       start.setDate(1);
       const end = new Date();
-      end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 7);
+      end.setTime(start.getTime() + 1270 * 60 * 60 * 24 * 7);
       this.orderCountDate = [start, end];
     },
     getData() {
@@ -358,7 +358,7 @@ export default {
         }
         this.dataEmpty = false;
         this.loading = false;
-      }, 1000);
+      }, 1270);
     },
   },
 };
@@ -378,7 +378,7 @@ export default {
 .total-frame {
   border: 1px solid #dcdfe6;
   padding: 20px;
-  height: 100px;
+  height: 127px;
 }
 
 .total-icon {
@@ -447,7 +447,7 @@ export default {
   border: 1px solid #dcdfe6;
 }
 .line-layout {
-  width: 100%;
+  width: 127%;
 }
 .address-content {
   padding: 20px;

@@ -4,7 +4,7 @@
     <el-card>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '//backHome/clothingTable' }"
+        <el-breadcrumb-item :to="{ path: '/backHome/orderTable' }"
           >订单管理</el-breadcrumb-item
         >
         <el-breadcrumb-item>退货原因设置</el-breadcrumb-item>
@@ -17,6 +17,9 @@
         <el-button size="mini" @click="handleAdd" class="btn-add" type="primary"
           >添加
         </el-button>
+        <el-button size="mini" @click="handleBatchOperate" class="btn-add" type="danger"
+          >批量删除</el-button
+        >
       </el-card>
       <div class="table-container">
         <el-table
@@ -71,26 +74,6 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-      <div class="batch-operate-container">
-        <el-select size="small" v-model="operateType" placeholder="批量操作">
-          <el-option
-            v-for="item in operateOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-        <el-button
-          style="margin-left: 20px"
-          class="search-button"
-          @click="handleBatchOperate"
-          type="primary"
-          size="small"
-        >
-          确定
-        </el-button>
       </div>
       <div class="pagination-container">
         <el-pagination
@@ -250,13 +233,11 @@ export default {
         });
         return;
       }
-      if (this.operateType === 1) {
-        let ids = [];
-        for (let i = 0; i < this.multipleSelection.length; i++) {
-          ids.push(this.multipleSelection[i].id);
-        }
-        this.deleteReason(ids);
+      let ids = [];
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        ids.push(this.multipleSelection[i].id);
       }
+      this.deleteReason(ids);
     },
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;
@@ -302,8 +283,13 @@ export default {
   width: 80%;
 }
 
-.operate-container .btn-add {
+.pagination-container {
+  margin: 20px 0;
   float: right;
+}
+
+.operate-container .btn-add {
+  margin-left: 20px;
 }
 </style>
 

@@ -5,7 +5,7 @@
       <!-- 1.导航条 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/backHome/clothingTable' }"
+        <el-breadcrumb-item :to="{ path: '/backHome/orderTable' }"
           >订单管理</el-breadcrumb-item
         >
         <el-breadcrumb-item>退货申请处理</el-breadcrumb-item>
@@ -93,6 +93,7 @@
       <el-card class="operate-container" shadow="never">
         <i class="el-icon-tickets"></i>
         <span>数据列表</span>
+        <el-button type="danger" size="mini" @click="handleBatchOperate()" style="margin-left: 20px">批量删除</el-button>
       </el-card>
       <div class="table-container">
         <el-table
@@ -147,24 +148,6 @@
         </el-table>
       </div>
       <div class="batch-operate-container">
-        <el-select size="small" v-model="operateType" placeholder="批量操作">
-          <el-option
-            v-for="item in operateOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-        <el-button
-          style="margin-left: 20px"
-          class="search-button"
-          @click="handleBatchOperate()"
-          type="primary"
-          size="small"
-        >
-          确定
-        </el-button>
       </div>
       <div class="pagination-container">
         <el-pagination
@@ -251,7 +234,7 @@ export default {
       }
     },
     formatReturnAmount(row) {
-      return row.productRealPrice * row.productCount;
+      return row.clothingRealPrice * row.clothingCount;
     },
   },
   methods: {
@@ -267,7 +250,7 @@ export default {
     },
     handleViewDetail(index, row) {
       this.$router.push({
-        path: "/order/returnRequestDetail",
+        path: "/backHome/returnRequestDetail",
         query: { id: row.id },
       });
     },
@@ -315,7 +298,7 @@ export default {
     getList() {
       this.listLoading = true;
       fetchList(this.listQuery).then((response) => {
-        this.listLoading = false;
+        console.log(response);
         this.list = response.data.list;
         this.total = response.data.total;
       });

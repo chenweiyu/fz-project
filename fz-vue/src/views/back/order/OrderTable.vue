@@ -5,7 +5,7 @@
       <!-- 1.导航条 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/backHome/clothingTable' }"
+        <el-breadcrumb-item :to="{ path: '/backHome/orderTable' }"
           >订单管理</el-breadcrumb-item
         >
         <el-breadcrumb-item>订单列表</el-breadcrumb-item>
@@ -145,12 +145,12 @@
               scope.row.memberUsername
             }}</template>
           </el-table-column>
-          <el-table-column label="订单金额" width="120" align="center">
+          <el-table-column label="订单金额" width="110" align="center">
             <template slot-scope="scope"
               >￥{{ scope.row.totalAmount }}</template
             >
           </el-table-column>
-          <el-table-column label="支付方式" width="120" align="center">
+          <el-table-column label="支付方式" width="110" align="center">
             <template slot-scope="scope">{{
               scope.row.payType | formatPayType
             }}</template>
@@ -399,7 +399,7 @@ export default {
       this.multipleSelection = val;
     },
     handleViewOrder(index, row) {
-      this.$router.push({ path: "/order/orderDetail", query: { id: row.id } });
+      this.$router.push({ path: "/backHome/orderDetail", query: { id: row.id } });
     },
     handleCloseOrder(index, row) {
       this.closeOrder.dialogVisible = true;
@@ -408,7 +408,7 @@ export default {
     handleDeliveryOrder(index, row) {
       let listItem = this.covertOrder(row);
       this.$router.push({
-        path: "/order/deliverOrderList",
+        path: "/backHome/deliverOrderList",
         query: { list: [listItem] },
       });
     },
@@ -498,9 +498,7 @@ export default {
       });
     },
     getList() {
-      this.listLoading = true;
       fetchList(this.listQuery).then((response) => {
-        this.listLoading = false;
         this.list = response.data.list;
         this.total = response.data.total;
       });

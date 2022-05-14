@@ -15,25 +15,16 @@
             </ul>
 
             <!-- 轮播图片 -->
-            <div class="carousel-inner">
-              <!-- <div class="carousel-item active">
-                <img src="../../assets/img/portfolio/portfolio-details-1.jpg" />
-              </div>
-              <div class="carousel-item">
-                <img src="../../assets/img/portfolio/portfolio-details-2.jpg" />
-              </div>
-              <div class="carousel-item">
-                <img src="../../assets/img/portfolio/portfolio-details-3.jpg" />
-              </div> -->
+            <div class="carousel-inner" style="background-color: aliceblue">
               <div class="carousel-item active">
-                <img :src="clothing.pic" class="carousel-item1" />
+                <img :src="clothing.pic" class="carousel-item1" style="width: 380px; margin-left: 127px"/>
               </div>
               <div
                 class="carousel-item"
                 v-for="(item, index) in pics"
                 :key="index"
               >
-                <img :src="item" class="carousel-item1" />
+                <img :src="item" class="carousel-item1" style="width: 380px; margin-left: 127px"/>
               </div>
             </div>
 
@@ -68,12 +59,16 @@
             </li>
             <li class="detail-1">
               <span class="detail-2">保障</span>
-              <span class="detail-3" v-if="!serviceId.length">商家目前没有添加保障信息</span>
+              <!-- <span class="detail-3" v-if="!serviceId.length">商家目前没有添加保障信息</span> -->
               <span
                 class="detail-3"
                 v-for="(item, index) in serviceId"
                 :key="index"
-                ><span>{{ ServiceList[item - 1] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span
+                ><span
+                  >{{
+                    ServiceList[item - 1]
+                  }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+                ></span
               >
             </li>
             <li class="detail-1">
@@ -95,7 +90,6 @@
                     v-for="item in clothingAttr.options"
                     :label="item"
                     :key="item"
-                    @change="changeRedio"
                   ></el-radio>
                 </el-radio-group>
                 <el-radio-group
@@ -107,7 +101,6 @@
                     v-for="item in clothingAttr.options"
                     :label="item"
                     :key="item"
-                    @change="changeRedio"
                   ></el-radio>
                 </el-radio-group>
               </div>
@@ -119,7 +112,10 @@
                 >
               </div>
               <div class="col-lg-7 pay-button">
-                <el-button type="warning" plain @click="submitCarDialogVisible()"
+                <el-button
+                  type="warning"
+                  plain
+                  @click="submitCarDialogVisible()"
                   ><i class="el-icon-shopping-cart-1"></i
                   >&nbsp;加入购物车</el-button
                 >
@@ -141,45 +137,43 @@
         <hr class="line" />
         <div class="row">
           <div class="col-lg-3">
-            <img
-              class="buy-img"
-              :src="clothing.pic"
-              alt="服装图片"
-            />
+            <img class="buy-img" :src="clothing.pic" alt="服装图片" />
           </div>
           <div class="col-lg-9">
-            <span class="buy-clothingname"
-              >{{clothing.name}}</span
-            >
-            <span class="buy-clothingPrice"
-              >￥{{clothing.price}}</span
-            >
-            <div class="buy-clothingSize"><el-tag type="success" size="small"
-                  >品牌：{{ clothing.brandName }}</el-tag
-                ></div>
-            <!-- <div class="buy-clothingSize" v-if="selectClothingAttr.length">颜色：{{ selectClothingAttr[0].values }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尺码：{{ selectClothingAttr[1].values }}码</div> -->
+            <span class="buy-clothingname">{{ clothing.name }}</span>
+            <span class="buy-clothingPrice">￥{{ clothing.price }}</span>
+            <div class="buy-clothingSize">
+              <el-tag type="success" size="small"
+                >品牌：{{ clothing.brandName }}</el-tag
+              >
+            </div>
           </div>
         </div>
         <el-divider content-position="left">商品详情</el-divider>
         <div class="other-mess">
           <span class="other-mess-1">配送服务</span>
-          <span class="detail-3" v-if="!serviceId.length">快递&nbsp;&nbsp;免邮</span>
-          <span
-                v-for="(item, index) in serviceId"
-                :key="index"
-                ><span>{{ ServiceList[item - 1] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span
-              >
+          <!-- <span class="detail-3" v-if="!serviceId.length">快递&nbsp;&nbsp;免邮</span> -->
+          <span v-for="(item, index) in serviceId" :key="index"
+            ><span
+              >{{ ServiceList[item - 1] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+            ></span
+          >
         </div>
         <div class="other-mess">
-          <span class="other-mess-1">颜&nbsp;&nbsp;色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span class="detail-3">{{ selectClothingAttr[0].values }}</span>
+          <span class="other-mess-1"
+            >颜&nbsp;&nbsp;色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+          >
+          <span class="detail-4">{{ addCartClothingColor }}</span>
         </div>
         <div class="other-mess">
-          <span class="other-mess-1">尺&nbsp;&nbsp;码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span class="detail-3">{{ selectClothingAttr[1].values }}码</span>
+          <span class="other-mess-1"
+            >尺&nbsp;&nbsp;码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+          >
+          <span class="detail-4">{{ addCartClothingSize }}&nbsp;码</span>
         </div>
         <div style="margin-left: 5px">
-          <span class="other-mess-2">数&nbsp;&nbsp;量</span>共&nbsp;<el-input-number
+          <span class="other-mess-2">数&nbsp;&nbsp;量</span
+          >共&nbsp;<el-input-number
             v-model="clothingNum"
             size="mini"
             @change="handleChange(0)"
@@ -190,11 +184,11 @@
           >&nbsp;件
         </div>
         <span class="sumPrice">合计：</span>￥<span class="sumPrice-1">{{
-          carClothingSum
+          cartClothingSum
         }}</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="addCarDialogVisible = false">取 消</el-button>
-          <el-button type="warning" @click="addCar">确定</el-button>
+          <el-button type="warning" @click="addCart">确定</el-button>
         </span>
       </el-dialog>
 
@@ -207,20 +201,18 @@
         <hr class="line" />
         <div class="row">
           <div class="col-lg-3">
-            <img
-              class="buy-img"
-              :src="clothing.pic"
-              alt=""
-            />
+            <img class="buy-img" :src="clothing.pic" alt="" />
           </div>
           <div class="col-lg-9">
-            <span class="buy-clothingname"
-              >{{ clothing.name }}</span
-            >
-            <span class="buy-clothingPrice"
-              >￥{{ clothing.price }}</span
-            >
-            <div class="buy-clothingSize" v-if="selectClothingAttr.length">颜色：{{ selectClothingAttr[0].values }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尺码：{{ selectClothingAttr[1].values }}码</div>
+            <span class="buy-clothingname">{{ clothing.name }}</span>
+            <span class="buy-clothingPrice">￥{{ clothing.price }}</span>
+            <div class="buy-clothingSize" v-if="selectClothingAttr.length">
+              颜色：{{
+                selectClothingAttr[0].values
+              }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尺码：{{
+                selectClothingAttr[1].values
+              }}码
+            </div>
           </div>
         </div>
         <div class="row receive-location">
@@ -228,12 +220,12 @@
             <i class="el-icon-map-location icon-locate"></i>
           </div>
           <div class="col-lg-10">
-            <span class="location-span"
-              >广东省中山市学院路1号</span
-            >
+            <span class="location-span">{{ receiverAddress }}</span>
             <div>
               <span class="username-span"
-                >小哈猫&nbsp;&nbsp;16161717181</span
+                >{{ receiver.receiverName }}&nbsp;&nbsp;{{
+                  receiver.receiverPhone
+                }}</span
               >
             </div>
           </div>
@@ -246,9 +238,12 @@
         <div class="other-mess">
           <span class="other-mess-1">配送服务</span>快递&nbsp;免邮
         </div>
+        <div class="other-mess">
+          <span class="other-mess-1">配送方式</span>{{ deliveryCompany }}
+        </div>
         <div style="margin-left: 5px">
           <span class="other-mess-2">数量</span>共&nbsp;<el-input-number
-            v-model="clothingNum"
+            v-model="orderClothingNum"
             size="mini"
             @change="handleChange(1)"
             :min="1"
@@ -261,7 +256,7 @@
           <div>订单备注</div>
           <br />
           <div>
-            <el-input type="textarea" v-model="form.desc"></el-input>
+            <el-input type="textarea" v-model="orderRemark"></el-input>
           </div>
         </div>
         <span class="sumPrice">合计：</span>￥<span class="sumPrice-1">{{
@@ -291,27 +286,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-form-item label="所在地区">
-              <el-row>
-                <el-col :span="7" class="address-spacing">
-                  <el-input
-                    v-model="alterAddrForm.receiverAddrProvince"
-                    placeholder="省份"
-                  ></el-input>
-                </el-col>
-                <el-col :span="7" class="address-spacing">
-                  <el-input
-                    v-model="alterAddrForm.receiverAddrCity"
-                    placeholder="城市"
-                  ></el-input>
-                </el-col>
-                <el-col :span="7">
-                  <el-input
-                    v-model="alterAddrForm.receiverAddrStreet"
-                    placeholder="区/县/乡"
-                  ></el-input>
-                </el-col>
-              </el-row>
+            <el-form-item label="所在区域">
+              <v-distpicker
+                :province="alterAddrForm.receiverAddrProvince"
+                :city="alterAddrForm.receiverAddrCity"
+                :area="alterAddrForm.receiverAddrStreet"
+                @selected="onSelectRegion"
+              ></v-distpicker>
+            </el-form-item>
+            <el-form-item label="详细地址">
+              <el-input
+                type="textarea"
+                v-model="alterAddrForm.receiverAddrDetail"
+              ></el-input>
             </el-form-item>
           </el-form>
 
@@ -321,6 +308,56 @@
           </span>
         </el-dialog>
       </el-dialog>
+
+      <!-- 支付模态框 -->
+      <el-dialog
+        title="支付界面"
+        :visible.sync="paydialogVisible"
+        width="30%"
+        :before-close="cancelPaydialog"
+      >
+        <span>应付金额：</span
+        ><span style="font-size: 18px; font-weight: bold; color: #293a29"
+          >￥&nbsp;{{ orderClothingSum }}元</span
+        >
+        <br />
+        <br />
+        <span>支付方式：</span
+        ><el-radio-group v-model="payType">
+          <el-radio label="1"
+            ><img
+              src="../../assets/img/zhifubao.png"
+              alt="支付宝支付"
+              style="width: 40px; height: 40px"
+            />支付宝</el-radio
+          >
+          <el-radio label="2"
+            ><img
+              src="../../assets/img/weixinzhifu.png"
+              alt="微信支付"
+              style="width: 40px; height: 40px"
+            />微信支付</el-radio
+          >
+        </el-radio-group>
+        <div>
+          <img
+            src="../../assets/img/zhifubaoerweima.png"
+            alt="支付宝二维码"
+            v-show="payType == 1"
+            style="width: 150px; height: 150px; margin: 20px 30%"
+          />
+          <img
+            src="../../assets/img/weixinerweima.png"
+            alt="微信二维码"
+            v-show="payType == 2"
+            style="width: 150px; height: 150px; margin: 20px 30%"
+          />
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="cancelPaydialog">取 消</el-button>
+          <el-button type="warning" @click="paydialog">确 定 支 付</el-button>
+        </span>
+      </el-dialog>
     </div>
   </section>
 </template>
@@ -328,6 +365,10 @@
 <script>
 import { getClothing } from "@/api/clothing";
 import { fetchList as fetchClothingAttrList } from "@/api/clothingAttr";
+import { createClothingCart } from "@/api/clothingCart";
+import { mapActions } from "vuex";
+import VDistpicker from "v-distpicker";
+import { createOrder, updatepayInfo } from "@/api/order";
 
 export default {
   name: "GoodDetail",
@@ -337,29 +378,63 @@ export default {
       clothing: {},
       pics: [],
       selectClothingAttr: [],
-      radio: "M",
       submitOrderDialogVisible: false,
       addCarDialogVisible: false,
-      form: {
-        desc: "",
-      },
-      clothingNum: 1,
-      carClothingSum: 0,
-      orderClothingSum: 0,
       innerAlterAddrVisible: false,
+      paydialogVisible: false,
+      addCartClothingColor: "",
+      addCartClothingSize: "",
+      orderRemark: "",
+      clothingNum: 1,
+      orderClothingNum: 1,
+      cartClothingSum: 0,
+      cartQuery: {},
+      orderClothingSum: 0,
+      receiver: {},
+      receiverAddress: "",
       alterAddrForm: {
         receiver: "",
         receiverPhone: "",
         receiverAddrProvince: "",
         receiverAddrCity: "",
         receiverAddrStreet: "",
+        receiverAddrDetail: "",
       },
+      deliveryCompany: "顺丰快递  |  圆通快递  |  中通快递  |  韵达快递",
       ServiceList: ["无忧退货", "快速退款", "免费包邮"],
       serviceId: [],
+      order: {
+        userId: null,
+        memberUsername: "",
+        totalAmount: null,
+        payAmount: null,
+        payType: 0,
+        sourceType: 0,
+        status: 0,
+        orderType: 0,
+        deliveryCompany: "",
+        autoConfirmDay: 15,
+        integration: 5,
+        growth: 20,
+        promotionInfo: "无",
+        receiverName: "",
+        receiverPhone: "",
+        receiverPostCode: 528400,
+        receiverProvince: "",
+        receiverCity: "",
+        receiverRegion: "",
+        receiverDetailAddress: "",
+        note: "",
+        deleteStatus: 0,
+        clothingId: null,
+      },
+      payType: null,
+      orderId: null,
     };
   },
 
   components: {
+    VDistpicker,
     "remote-js": {
       render(createElement) {
         return createElement("script", {
@@ -397,69 +472,207 @@ export default {
   },
 
   methods: {
+    ...mapActions(["create", "getClothingCart"]),
+
     goBack() {
       window.history.back();
     },
     alterAddr() {
+      this.alterAddrForm.receiverAddrProvince = this.receiver.receiverProvince;
+      this.alterAddrForm.receiverAddrCity = this.receiver.receiverCity;
+      this.alterAddrForm.receiverAddrStreet = this.receiver.receiverRegion;
       this.innerAlterAddrVisible = true;
     },
     accurateAddr() {
-      console.log(this.alterAddrForm);
+      this.receiverAddress = this.mergeAddress(
+        this.alterAddrForm.receiverAddrProvince,
+        this.alterAddrForm.receiverAddrCity,
+        this.alterAddrForm.receiverAddrStreet,
+        this.alterAddrForm.receiverAddrDetail
+      );
+      this.receiver.receiverProvince = this.alterAddrForm.receiverAddrProvince;
+      this.receiver.receiverCity = this.alterAddrForm.receiverAddrCity;
+      this.receiver.receiverRegion = this.alterAddrForm.receiverAddrStreet;
+      this.receiver.receiverDetailAddress =
+        this.alterAddrForm.receiverAddrDetail;
+      this.receiver.receiverName = this.alterAddrForm.receiver;
+      this.receiver.receiverPhone = this.alterAddrForm.receiverPhone;
       this.innerAlterAddrVisible = false;
     },
+    mergeAddress(province, city, region, detailAddr) {
+      return province + city + region + detailAddr;
+    },
     buyDialogVisible() {
+      this.handleChange(1);
+      this.receiver = JSON.parse(
+        JSON.stringify(this.$store.state.receiver.receiverList[0])
+      );
+      this.receiverAddress = this.mergeAddress(
+        this.receiver.receiverProvince,
+        this.receiver.receiverCity,
+        this.receiver.receiverRegion,
+        this.receiver.receiverDetailAddress
+      );
       this.submitOrderDialogVisible = true;
     },
     submitCarDialogVisible() {
       this.handleChange(0);
+      this.addCartClothingColor = this.selectClothingAttr[0].values;
+      this.addCartClothingSize = this.selectClothingAttr[1].values;
       this.addCarDialogVisible = true;
     },
-    submitOrder() {},
-    addCar() {},
+    submitOrder() {
+      let user = JSON.parse(localStorage.getItem("userInfo"));
+      this.order.userId = user.userId;
+      this.order.memberUsername = user.username;
+      this.order.totalAmount = this.orderClothingSum;
+      this.order.payAmount = this.orderClothingSum;
+      this.order.sourceType = 0;
+      this.order.orderType = 0;
+      this.order.deliveryCompany = this.deliveryCompany;
+      this.order.receiverName = this.receiver.receiverName;
+      this.order.receiverPhone = this.receiver.receiverPhone;
+      this.order.receiverProvince = this.receiver.receiverProvince;
+      this.order.receiverCity = this.receiver.receiverCity;
+      this.order.receiverRegion = this.receiver.receiverRegion;
+      this.order.receiverDetailAddress = this.receiver.receiverDetailAddress;
+      this.order.note = this.orderRemark;
+      this.order.clothingId = this.clothing.id;
+      let orderParam = {
+        order: this.order,
+        clothing: this.clothing,
+        orderClothingNum: this.orderClothingNum,
+        orderClothingColor: this.selectClothingAttr[0].values,
+        orderClothingSize: this.selectClothingAttr[1].values,
+      };
+      createOrder(orderParam).then((response) => {
+        if (response.code === 200) {
+          this.$message({
+            message: "订单提交成功，请支付",
+            type: "success",
+            duration: 1000,
+          });
+          this.orderId = response.data;
+        }
+      });
+      this.submitOrderDialogVisible = false;
+      this.paydialogVisible = true;
+    },
+
+    cancelPaydialog() {
+      this.paydialogVisible = false;
+    },
+
+    paydialog() {
+      this.$confirm("是否要进行该确认收货操作?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        let updatePayOrder = {};
+        updatePayOrder.orderId = this.orderId;
+        updatePayOrder.payType = this.payType;
+        updatePayOrder.status = 1;
+        updatepayInfo(updatePayOrder).then((res) => {
+          if (res.code === 200) {
+            this.$message({
+              message: "支付成功",
+              type: "success",
+              duration: 1000,
+            });
+            this.paydialogVisible = false;
+          }
+        });
+      });
+    },
+
+    addCart() {
+      let cart = this.$store.state.cart.clothingCart;
+      let cartList = cart.list;
+      let cartListLen = cartList.length;
+      for (let i = 0; i < cartListLen; i++) {
+        if (
+          cartList[i].clothingCartList.clothingId == this.$route.query.id &&
+          cartList[i].clothingCartList.userId ==
+            this.$store.state.user.user.userId
+        ) {
+          this.$message({
+            type: "success",
+            message: "该商品已在你的购物车里",
+            duration: 1000,
+          });
+          return;
+        }
+      }
+      this.cartQuery.clothingId = this.$route.query.id;
+      this.cartQuery.userId = this.$store.state.user.user.userId;
+      this.cartQuery.clothingNum = this.clothingNum;
+      this.cartQuery.clothingColor = this.addCartClothingColor;
+      this.cartQuery.clothingSize = this.addCartClothingSize;
+      this.create(this.cartQuery).then(
+        (response) => {
+          if (response.code === 200) {
+            this.$message({
+              type: "success",
+              message: "成功添加至购物车",
+              duration: 1500,
+            });
+            let queryInfo = {};
+            queryInfo.userId = this.$store.state.user.user.userId;
+            queryInfo.pagenum = 1;
+            queryInfo.pagesize = 1000;
+            this.getClothingCart(queryInfo);
+            this.addCarDialogVisible = false;
+          }
+        },
+        () => {
+          this.$message({
+            type: "error",
+            message: "该商品添加购物车失败",
+            duration: 1500,
+          });
+        }
+      );
+    },
     handleChange(index) {
       if (index === 0) {
-        this.carClothingSum = this.clothingNum * this.clothing.price;
-        this.carClothingSum = this.carClothingSum.toFixed(1);
+        this.cartClothingSum = this.clothingNum * this.clothing.price;
+        this.cartClothingSum = this.cartClothingSum.toFixed(1);
       } else {
-        this.orderClothingSum = this.clothingNum * this.clothing.price;
+        this.orderClothingSum = this.orderClothingNum * this.clothing.price;
         this.orderClothingSum = this.orderClothingSum.toFixed(1);
       }
+    },
+    onSelectRegion(data) {
+      this.alterAddrForm.receiverAddrProvince = data.province.value;
+      this.alterAddrForm.receiverAddrCity = data.city.value;
+      this.alterAddrForm.receiverAddrStreet = data.area.value;
     },
     getGoodsInfo() {
       getClothing(this.$route.query.id).then((response) => {
         this.clothing = response.data;
-        // if (
-        //   this.clothing.pic === undefined ||
-        //   this.clothing.pic == null ||
-        //   this.clothing.pic === ""
-        // ) {
-        //   return;
-        // }
-        // this.pics.push(this.clothing.pic);
+        this.getClothingAttrList(0, this.clothing.clothingAttributeCategoryId);
+        this.serviceId = this.getServiceList();
         if (
           this.clothing.albumPics === undefined ||
           this.clothing.albumPics == null ||
           this.clothing.albumPics === ""
         ) {
           return;
+        } else {
+          let albumPics = this.clothing.albumPics.split(",");
+          for (let i = 0; i < albumPics.length; i++) {
+            this.pics.push(albumPics[i]);
+          }
         }
-        let albumPics = this.clothing.albumPics.split(",");
-        for (let i = 0; i < albumPics.length; i++) {
-          this.pics.push(albumPics[i]);
-        }
-        this.getClothingAttrList(0, this.clothing.clothingAttributeCategoryId);
-        this.serviceId = this.getServiceList();
-        console.log(this.serviceId);
       });
     },
     getClothingAttrList(type, cid) {
       let param = { pageNum: 1, pageSize: 100, type: type };
       fetchClothingAttrList(cid, param).then((response) => {
         let list = response.data.list;
-        console.log(list);
         for (let i = 0; i < list.length; i++) {
           let options = [];
-          let values = [];
           if (list[i].handAddStatus === 1 || list[i].handAddStatus === 0) {
             //编辑状态下获取手动添加编辑属性
             options = this.getEditAttrOptions(list[i].id);
@@ -471,7 +684,7 @@ export default {
             handAddStatus: list[i].handAddStatus,
             inputList: list[i].inputList,
             options: options,
-            values: null,
+            values: "",
           });
         }
       });
@@ -490,16 +703,12 @@ export default {
           }
           let strArr = attrValue.value.split(",");
           for (let j = 0; j < strArr.length; j++) {
-            console.log(strArr[j]);
             options.push(strArr[j]);
           }
           break;
         }
       }
       return options;
-    },
-    changeRedio() {
-      console.log("this.selectClothingAttr", this.selectClothingAttr);
     },
     getServiceList() {
       let list = [];
@@ -609,6 +818,11 @@ ul li .price-2 {
   font-size: 14px;
 }
 
+.detail-4 {
+  font-size: 14px;
+  color: goldenrod;
+}
+
 .payment {
   width: 100%;
   height: 105px;
@@ -669,7 +883,7 @@ ul li .price-2 {
   font-size: 14px;
   margin-left: 10px;
   margin-top: 20px;
-  color: rgb(110, 110, 110);
+  color: rgb(252, 104, 104);
 }
 
 .receive-location {
@@ -738,7 +952,7 @@ ul li .price-2 {
 }
 
 .carousel-item1 {
-  width: 635px;
+  width: 380px;
   height: 380px;
 }
 </style>

@@ -15,6 +15,22 @@ export function closeOrder(params) {
   })
 }
 
+export function createOrderBatch(data) {
+  return request({
+    url: '/order/createBatch',
+    method: 'post',
+    data: data
+  })
+}
+
+export function createOrder(data) {
+  return request({
+    url: '/order/create',
+    method: 'post',
+    data: data
+  })
+}
+
 export function deleteOrder(params) {
   return request({
     url:'/order/delete',
@@ -38,6 +54,14 @@ export function getOrderDetail(id) {
   });
 }
 
+export function getUserOrderList(userId, params) {
+  return request({
+    url: '/order/user/' + userId,
+    method: 'get',
+    params: params
+  });
+}
+
 export function updateReceiverInfo(data) {
   return request({
     url:'/order/update/receiverInfo',
@@ -51,6 +75,22 @@ export function updateMoneyInfo(data) {
     url:'/order/update/moneyInfo',
     method:'post',
     data:data
+  });
+}
+
+export function updatepayInfo(data) {
+  return request({
+    url:'/order/update/payInfo',
+    method:'post',
+    data:data
+  });
+}
+
+export function updatepayInfoList(data) {
+  return request({
+    url: '/order/update/payInfoList',
+    method: 'post',
+    data: data
   });
 }
 

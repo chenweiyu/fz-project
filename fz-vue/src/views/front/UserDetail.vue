@@ -4,19 +4,22 @@
       <el-page-header @back="goBack" content="个人信息"> </el-page-header>
       <div class="row">
         <div class="col-lg-1 user-img-user">
-          <img src="../../assets/img/wx-xhm.jpg" alt="" class="userImg" />
+          <img :src="userForm.userface" alt="用户头像" class="userImg" v-if="userForm.userface != null" />
+          <img src="../../assets/img/defaultman.png" alt="默认头像" class="userImg" v-if="userForm.userface == null && userForm.sex == '男'" />
+          <img src="../../assets/img/defaultwomen.jpg" alt="默认头像" class="userImg" v-if="userForm.userface == null && userForm.sex == '女'" />
+          <img src="../../assets/img/defaultman.png" alt="默认头像" class="userImg" v-if="userForm.userface == null && userForm.sex == ''" />
         </div>
         <div class="col-lg-10">
-          <p class="username">小哈猫<!--{{user.name}}--></p>
+          <p class="username">{{ userForm.username }}</p>
           <a href="#" class="username-edit" @click="usernameEditShow()"
             ><i class="el-icon-edit"></i><span>修改</span></a
           >
         </div>
       </div>
-      <el-form ref="form" :model="user" label-width="85px">
+      <el-form ref="form" :model="userForm" label-width="85px">
         <el-form-item label="用户名" v-show="showUsernameEdit">
           <el-col :span="6">
-            <el-input v-model="user.name"></el-input>
+            <el-input v-model="userForm.username"></el-input>
             <a href="#" class="username-edit" @click="usernameEditHide()"
               >取消</a
             >
@@ -29,12 +32,12 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="电话号码">
-              <el-input v-model="user.phone"></el-input>
+              <el-input v-model="userForm.phone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="性别">
-              <el-select v-model="user.sex" placeholder="请选择性别">
+              <el-select v-model="userForm.sex" placeholder="请选择性别">
                 <el-option
                   v-for="(item, index) in sexList"
                   :key="index"
@@ -48,7 +51,7 @@
         </el-row>
         <el-form-item label="邮箱账号">
           <el-col :span="6">
-            <el-input v-model="user.mail"></el-input>
+            <el-input v-model="userForm.email"></el-input>
           </el-col>
         </el-form-item>
         <div>
@@ -58,79 +61,60 @@
         <el-row>
           <el-col :span="7" class="address-spacing">
             <el-form-item label="收货人">
-              <el-input v-model="address.receiver"></el-input>
+              <el-input v-model="receiver.receiverName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="收货人电话">
-              <el-input v-model="user.receiverPhone"></el-input>
+              <el-input v-model="receiver.receiverPhone"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="所在地区">
-          <el-row>
-            <el-col :span="6" class="address-spacing">
-              <el-input
-                v-model="address.province"
-                placeholder="省份"
-              ></el-input>
-            </el-col>
-            <el-col :span="6" class="address-spacing">
-              <el-input v-model="address.city" placeholder="城市"></el-input>
-            </el-col>
-            <el-col :span="6">
-              <el-input
-                v-model="address.street"
-                placeholder="区/县/乡"
-              ></el-input>
-            </el-col>
-          </el-row>
+        <el-form-item label="所在区域">
+          <v-distpicker
+            :province="receiver.receiverProvince"
+            :city="receiver.receiverCity"
+            :area="receiver.receiverRegion"
+            @selected="onSelectRegion"
+          ></v-distpicker>
         </el-form-item>
         <el-form-item label="详细地址">
-          <el-col :span="11">
-            <el-input v-model="address.addrDetail"></el-input>
-          </el-col>
+          <el-input
+            type="textarea"
+            v-model="receiver.receiverDetailAddress"
+            placeholder="请输入内容"
+            style="width: 60%"
+          ></el-input>
         </el-form-item>
       </el-form>
-      <a href="#" class="btn-get-started">保存信息</a>
+      <a href="#" class="btn-get-started" @click="saveUserDetail">保存信息</a>
     </div>
   </section>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import VDistpicker from "v-distpicker";
 export default {
   name: "GoodCart",
   data() {
     return {
       showUsernameEdit: false,
       sexList: ["男", "女", "其他"],
-      orders: [
-        {
-          goodImg: require("../../assets/img/portfolio/portfolio-1.jpg"),
-          goodName: "潮流破洞牛仔裤",
-          goodPrice: 88.88,
-          goodNum: "x" + "1",
-          payment: 88.88,
-        },
-        {
-          goodImg: require("../../assets/img/portfolio/portfolio-2.jpg"),
-          goodName: "简约舒适上衣",
-          goodPrice: 188.88,
-          goodNum: "x" + "1",
-          payment: 188.88,
-        },
-      ],
-
       goodsSum: 0,
-
-      user: {
-        name: "小哈猫",
+      receiver: {
+        receiverName: "",
+        receiverPhone: "",
+        receiverProvince: "",
+        receiverCity: "",
+        receiverRegion: "",
+        receiverDetailAddress: "",
       },
-
-      address: {},
+      userForm: {},
     };
   },
   components: {
+    VDistpicker,
     "remote-js": {
       render(createElement) {
         return createElement("script", {
@@ -162,7 +146,22 @@ export default {
       },
     },
   },
+
+  created() {
+    this.getUserDetail();
+  },
+
   methods: {
+    ...mapActions(["saveUserInfo", "updateReceiverList"]),
+
+    getUserDetail() {
+      this.userForm = JSON.parse(localStorage.getItem("userInfo"));
+      console.log(this.userForm.userface);
+      if (this.$store.state.receiver.receiverList.length != 0) {
+        this.receiver = this.$store.state.receiver.receiverList[0];
+      }
+    },
+
     goBack() {
       window.history.back();
     },
@@ -178,6 +177,25 @@ export default {
 
     usernameEditHide() {
       this.showUsernameEdit = false;
+    },
+
+    onSelectRegion(data) {
+      this.receiver.receiverProvince = data.province.value;
+      this.receiver.receiverCity = data.city.value;
+      this.receiver.receiverRegion = data.area.value;
+    },
+
+    saveUserDetail() {
+      this.showUsernameEdit = false;
+      this.saveUserInfo(this.userForm);
+      this.updateReceiverList(this.receiver).then(() => {
+        this.$message({
+          type: "success",
+          message: "保存成功",
+          duration: 1000,
+        });
+      });
+      this.getUserDetail();
     },
   },
 };
@@ -228,6 +246,10 @@ export default {
 
 .address-spacing {
   margin-right: 10px;
+}
+
+.distpicker-address-wrapper .select {
+  width: 100px;
 }
 
 .btn-get-started {

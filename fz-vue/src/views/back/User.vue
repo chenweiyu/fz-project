@@ -2,7 +2,6 @@
   <div>
     <!-- 2.卡片视图 -->
     <el-card>
-      <!-- 1.导航条 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>系统管理</el-breadcrumb-item>
@@ -10,39 +9,57 @@
       </el-breadcrumb>
 
       <br />
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <!-- 使用clearable属性即可得到一个可清空的输入框   clear	在点击由 clearable 属性生成的清空按钮时触发-->
-          <el-input
-            placeholder="请输入用户名称"
-            v-model="queryInfo.query"
-            class="input-with-select"
-            clearable
-            @clear="getList"
-          >
-            <template #append>
-              <el-button icon="el-icon-search" @click="getList"></el-button>
-            </template>
-          </el-input>
-        </el-col>
-        <el-col :span="5">
-          <el-button
-            type="primary"
-            @click="showAddDialog"
-            icon="el-icon-edit"
-            plain
-            >添加</el-button
-          >
-          <el-button
-            type="danger"
-            @click="removeById(multipleSelection)"
-            icon="el-icon-delete"
-            plain
-            >批量删除</el-button
-          >
-        </el-col>
-      </el-row>
-      <br />
+      <div>
+        <i class="el-icon-search"></i>
+        <span>筛选搜索</span>
+        <el-button
+          style="float: right"
+          type="primary"
+          @click="handleSearchList()"
+          size="small"
+        >
+          查询搜索
+        </el-button>
+        <el-button
+          style="float: right; margin-right: 15px"
+          @click="handleResetSearch()"
+          size="small"
+        >
+          重置
+        </el-button>
+      </div>
+      <div style="margin-top: 15px">
+        <el-form
+          :inline="true"
+          :model="listQuery"
+          size="small"
+          label-width="140px"
+        >
+          <el-form-item label="输入搜索：">
+            <el-input
+              v-model="listQuery.keyword"
+              class="input-width"
+              placeholder="帐号/姓名"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-card class="operate-container" shadow="never">
+        <i class="el-icon-tickets"></i>
+        <span>用户列表</span>
+        <el-button
+          size="mini"
+          type="primary"
+          @click="handleAdd()"
+          style="margin-left: 20px"
+          >添加</el-button
+        >
+        <span style="margin: 0 20px 0 40px">批量操作</span>
+        <el-button size="mini" type="danger" @click="handleDelete(-1)"
+          >批量删除</el-button
+        >
+      </el-card>
       <el-table
         :data="list"
         border
@@ -51,389 +68,432 @@
       >
         <el-table-column type="selection" width="60"></el-table-column>
         <el-table-column type="index" label="序号" width="60"></el-table-column>
-        <el-table-column label="用户名" prop="name"></el-table-column>
-        <el-table-column label="联系方式" prop="phone"></el-table-column>
-        <el-table-column label="邮箱" prop="email"></el-table-column>
-        <el-table-column label="性别" prop="sex"></el-table-column>
-        <el-table-column label="角色">
+        <el-table-column label="帐号" align="center" width="120">
+          <template slot-scope="scope">{{ scope.row.username }}</template>
+        </el-table-column>
+        <el-table-column label="姓名" align="center" width="120">
+          <template slot-scope="scope">{{ scope.row.nickname }}</template>
+        </el-table-column>
+        <el-table-column
+          label="联系方式"
+          prop="phone"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          label="邮箱"
+          prop="email"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          label="性别"
+          prop="sex"
+          align="center"
+          width="80"
+        ></el-table-column>
+        <el-table-column label="注册时间" width="160" align="center">
+          <template slot-scope="scope">{{
+            scope.row.regTime | formatDateTime
+          }}</template>
+        </el-table-column>
+        <el-table-column label="是否启用" width="120" align="center">
           <template slot-scope="scope">
-            <el-tag
-              type="warning"
-              v-for="(item, index) in scope.row.myRoleList"
-              :key="index"
+            <el-switch
+              @change="handleStatusChange(scope.$index, scope.row)"
+              :active-value="1"
+              :inactive-value="0"
+              v-model="scope.row.state"
             >
-              {{ item.roleName }}
-            </el-tag>
+            </el-switch>
           </template>
         </el-table-column>
         <!-- 自定义列 -->
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              type="primary"
-              icon="el-icon-edit"
-              @click="showEditDialog(scope.row.id)"
-              >编辑
+              type="text"
+              @click="handleSelectRole(scope.$index, scope.row)"
+              >分配角色
             </el-button>
             <el-button
               size="mini"
-              type="danger"
-              icon="el-icon-delete"
-              @click="removeById([scope.row.id])"
+              type="text"
+              @click="handleUpdate(scope.$index, scope.row)"
+            >
+              编辑
+            </el-button>
+            <el-button
+              size="mini"
+              type="text"
+              @click="handleDelete(scope.$index, scope.row)"
               >删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <br/>
+      <br />
       <!-- 2.3 分页区域 -->
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum"
-        :page-size="queryInfo.pagesize"
+        :current-page="listQuery.pageNum"
+        :page-size="listQuery.pageSize"
         :page-sizes="[5, 10, 20, 40]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       >
       </el-pagination>
+
+      <!-- 添加/编辑用户 -->
+      <el-dialog
+        :title="isEdit ? '编辑用户' : '添加用户'"
+        :visible.sync="dialogVisible"
+        width="40%"
+      >
+        <el-form
+          :model="user"
+          :rules="userRules"
+          ref="userRef"
+          label-width="150px"
+          size="small"
+        >
+          <el-form-item label="帐号：" prop="username">
+            <el-input v-model="user.username" style="width: 250px"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名：">
+            <el-input v-model="user.nickname" style="width: 250px"></el-input>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password">
+            <el-input
+              v-model="user.password"
+              type="password"
+              style="width: 250px"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="电话：">
+            <el-input v-model="user.phone" style="width: 250px"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱：">
+            <el-input v-model="user.email" style="width: 250px"></el-input>
+          </el-form-item>
+          <el-form-item label="性别：">
+            <el-select
+              v-model="user.sex"
+              placeholder="请选择性别"
+              style="width: 250px"
+            >
+              <el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+              <el-option label="其他" value="其他"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="是否启用：">
+            <el-radio-group v-model="user.state">
+              <el-radio :label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" size="small"
+            >取 消</el-button
+          >
+          <el-button type="primary" @click="handleDialogConfirm()" size="small"
+            >确 定</el-button
+          >
+        </span>
+      </el-dialog>
+
+      <!-- 分配角色弹出框 -->
+      <el-dialog
+        title="分配角色"
+        :visible.sync="allocDialogVisible"
+        width="30%"
+      >
+        <el-select
+          v-model="allocRoleIds"
+          multiple
+          placeholder="请选择"
+          size="small"
+          style="width: 80%"
+        >
+          <el-option
+            v-for="item in allRoleList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="allocDialogVisible = false" size="small"
+            >取 消</el-button
+          >
+          <el-button
+            type="primary"
+            @click="handleAllocDialogConfirm()"
+            size="small"
+            >确 定</el-button
+          >
+        </span>
+      </el-dialog>
     </el-card>
-    <el-dialog
-      title="添加"
-      :visible.sync="addDialogVisible"
-      width="50%"
-      @close="addDialogClosed"
-    >
-      <el-form
-        :model="addForm"
-        ref="addFormRef"
-        :rules="addFormRules"
-        label-width="100px"
-      >
-        <el-form-item label="部门编号" prop="sectionNum">
-          <el-input v-model="addForm.sectionNum"></el-input>
-        </el-form-item>
-        <el-form-item label="部门名称" prop="section_name">
-          <el-input v-model="addForm.section_name"></el-input>
-        </el-form-item>
-        <el-form-item label="部门位置" prop="sectionPlace">
-          <el-input v-model="addForm.sectionPlace"></el-input>
-        </el-form-item>
-      </el-form>
-      <!-- 底部 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="add">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      title="添加"
-      :visible.sync="addDialogVisible"
-      width="50%"
-      @close="addDialogClosed"
-    >
-      <el-form
-        :model="addForm"
-        ref="addFormRef"
-        :rules="addFormRules"
-        label-width="100px"
-      >
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="addForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="addForm.password"></el-input>
-        </el-form-item>
-        <el-form-item label="生日" prop="birthday">
-          <el-date-picker
-            v-model="addForm.birthday"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="addForm.email"></el-input>
-        </el-form-item>
-
-        <el-form-item label="角色" prop="yesCheckList">
-          <el-checkbox-group v-model="addForm.yesCheckList">
-            <el-checkbox
-              v-for="item in allCheckList"
-              :label="item.id"
-              :key="item.id"
-              >{{ item.roleName }}</el-checkbox
-            >
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-      <!-- 底部 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="add">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <!-- 编辑框 -->
-    <el-dialog
-      title="编辑角色"
-      :visible.sync="editDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
-      <el-form
-        :model="editForm"
-        ref="editFormRef"
-        :rules="editFormRules"
-        label-width="100px"
-      >
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="editForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="editForm.password"
-            placeholder="不更新密码，请不要输入信息"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="生日" prop="birthday">
-          <el-date-picker
-            v-model="editForm.birthday"
-            type="date"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            placeholder="选择日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="editForm.email"></el-input>
-        </el-form-item>
-
-        <!--  v-model="editForm.yesCheckList" 双向绑定 -->
-        <el-form-item label="角色" prop="yesCheckList">
-          <el-checkbox-group v-model="editForm.yesCheckList">
-            <el-checkbox
-              v-for="item in allCheckList"
-              :label="item.id"
-              :key="item.id"
-              >{{ item.roleName }}</el-checkbox
-            >
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-      <!-- 底部 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="update">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
+import {
+  fetchList,
+  updateStatus,
+  getRoleByUser,
+  allocRole,
+  updateUser,
+  createUser,
+  deleteUser,
+} from "@/api/user";
+import { fetchAllRoleList } from "@/api/role";
+import { formatDate } from "@/utils/date";
+const defaultListQuery = {
+  pageNum: 1,
+  pageSize: 10,
+  keyword: null,
+};
+const defaultUser = {
+  id: null,
+  username: null,
+  password: null,
+  nickname: null,
+  enabled: 0,
+  phone: null,
+  email: null,
+  sex: null,
+  state: 1,
+};
 export default {
   name: "User",
   data() {
     return {
-      file: "", //传往后台文件
-
-      /// ////////////////////列表 el-table
+      file: "",
       list: [],
-
-      multipleSelection: [], //多选  id
-
-      /// ////////////////////分页查询   list->page
-      queryInfo: {
-        name: "", //查询参数
-        rid: "", //角色ID
-        pagenum: 1, // 当前的页数
-        pagesize: 10, // 当前每页显示多少条数据
-      },
+      listQuery: Object.assign({}, defaultListQuery),
+      multipleSelection: [],
       total: 0,
-
-      //角色选择
       allCheckList: [],
-      /// ////////////////////添加框  form，验证
       addDialogVisible: false,
-      addForm: {
-        name: "",
-        password: "",
-        birthday: "",
-        email: "",
-        yesCheckList: [],
-      },
+      dialogVisible: false,
+      allocDialogVisible: false,
+      user: Object.assign({}, defaultUser),
+      isEdit: false,
+      allocRoleIds: [],
+      allRoleList: [],
+      allocUserId: null,
 
-      addFormRules: {
-        name: [
+      userRules: {
+        username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           {
             min: 1,
-            max: 25,
-            message: "长度在 1 到 25 个字符",
+            max: 100,
+            message: "长度在 1 到 100 个字符",
             trigger: "blur",
           },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
-            min: 6,
-            max: 8,
-            message: "长度在 6 到 8 个字符",
+            min: 3,
+            message: "长度不少与3个字符",
             trigger: "blur",
           },
         ],
-        yesCheckList: { required: true, message: "请选择", trigger: "blur" },
       },
-
-      /// ////////////////////修改框  form，验证
-      editForm: {},
       editDialogVisible: false,
-      editFormRules: {
-        name: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-          {
-            min: 1,
-            max: 25,
-            message: "长度在 1 到 25 个字符",
-            trigger: "blur",
-          },
-        ],
-        yesCheckList: { required: true, message: "请选择", trigger: "blur" },
-      },
     };
   },
   //生命函数
   created() {
     this.getList();
-    this.getAllRoles();
+    this.getAllRoleList();
   },
-  //方法
+
+  filters: {
+    formatDateTime(time) {
+      if (time == null || time === "") {
+        return "N/A";
+      }
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+    },
+  },
+
   methods: {
-    ////////////////////添加
-    add() {
-      this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return;
-        // 可以发起添加用户的网络请求
-        //带图片，构造form
-        let fd = new FormData();
-        fd.append("file", this.file.raw);
-        fd.append("user", JSON.stringify(this.addForm));
-
-        const { data: res } = await this.$http.post("/user/save", fd);
-
-        if (res.code !== 200) {
-          return this.$message.error("添加信息失败！");
+    handleSearchList() {
+      this.listQuery.pageNum = 1;
+      this.getList();
+    },
+    getList() {
+      fetchList(this.listQuery).then((response) => {
+        if (response.code === 200) {
+          this.list = response.data.list;
+          this.total = response.data.total;
         }
-
-        this.$message.success("添加信息成功！");
-        this.addDialogVisible = false;
-        this.getList();
+      });
+    },
+    getAllRoleList() {
+      fetchAllRoleList().then((response) => {
+        this.allRoleList = response.data;
       });
     },
 
-    ///////////////////////////////////
-    //查询所有角色
-    async getAllRoles() {
-      const { data: res } = await this.$http.post("/role/list");
-      console.log(res);
-      if (res.code !== 200) {
-        return this.$message.error("获取列表失败！");
-      }
-      this.allCheckList = res.data;
+    handleAdd() {
+      this.dialogVisible = true;
+      this.isEdit = false;
+      this.user = Object.assign({}, defaultUser);
     },
 
-    /// //////////////////// 获取所有角色的列表
-    async getList() {
-      //query=abc&pagenum=1&pagesize=5
-      console.log(this.$qs.stringify(this.queryInfo));
-      const { data: res } = await this.$http.post(
-        "/user/list",
-        this.$qs.stringify(this.queryInfo)
-      );
-      console.log(res);
-      if (res.code !== 200) {
-        return this.$message.error("获取列表失败！");
-      }
-      this.list = res.data.records;
-      this.total = res.data.total;
-    },
-
-    /// ////////////////////编辑功能
-    async showEditDialog(id) {
-      console.log(id);
-      const { data: res } = await this.$http.get("/user/info/" + id);
-      if (res.code !== 200) {
-        return this.$message.error("查询信息失败！");
-      }
-      console.log("-----", res.data);
-      this.editForm = res.data; // 对象复制
-      // this.editForm.yesCheckList=[9,10]
-      this.editDialogVisible = true;
-    },
-
-    ////////////////////更新
-    update() {
-      this.$refs.editFormRef.validate(async (valid) => {
-        if (!valid) return;
-        //
-
-        let fd = new FormData();
-        fd.append("file", this.file.raw);
-        fd.append("user", JSON.stringify(this.editForm));
-
-        const { data: res } = await this.$http.post("/user/update", fd);
-        if (res.code !== 200) {
-          return this.$message.error("更新信息失败！");
-        }
-
-        // 提示修改成功
-        this.$message.success("更新信息成功！");
-        // 关闭对话框
-        this.editDialogVisible = false;
-        // 刷新数据列表
-        this.getList();
-      });
-    },
-
-    /// ////////////////////删除功能   ，实现批量删除
-    removeById(ids) {
-      console.log("-----", ids);
-      if (ids.length == 0) return this.$message.error("请先选择至少一条");
-
-      // 弹框
-      this.$confirm("此操作将永久删除数据, 是否继续?", "提示", {
+    handleStatusChange(index, row) {
+      this.$confirm("是否要修改该状态?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
-        .then(async () => {
-          // 删除逻辑
-          const { data: res } = await this.$http.post("/user/delete", ids);
-
-          if (res.code !== 200) {
-            return this.$message.error("删除信息失败！" + res.msg);
-          }
-
-          this.$message.success("删除信息成功！");
-
-          this.getList();
+        .then(() => {
+          console.log(row.state);
+          updateStatus(row.id, { status: row.state }).then((response) => {
+            this.$message({
+              type: "success",
+              message: "修改成功!",
+            });
+          });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除",
+            message: "取消修改",
           });
+          this.getList();
         });
     },
 
-    ///////////////////////////////////
-    // 多选,组成id数组
+    handleSelectRole(index, row) {
+      this.allocUserId = row.id;
+      this.allocDialogVisible = true;
+      this.getRoleListByUser(row.id);
+    },
+    // 提交用户id与角色数组ids给服务端
+    handleAllocDialogConfirm() {
+      this.$confirm("是否要确认?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        let params = new URLSearchParams();
+        params.append("userId", this.allocUserId);
+        params.append("roleIds", this.allocRoleIds);
+        allocRole(params).then((response) => {
+          this.$message({
+            message: "分配成功！",
+            type: "success",
+          });
+          this.allocDialogVisible = false;
+        });
+      });
+    },
+    getRoleListByUser(userId) {
+      getRoleByUser(userId).then((response) => {
+        let allocRoleList = response.data;
+        this.allocRoleIds = [];
+        if (allocRoleList != null && allocRoleList.length > 0) {
+          for (let i = 0; i < allocRoleList.length; i++) {
+            this.allocRoleIds.push(allocRoleList[i].id);
+          }
+        }
+      });
+    },
+    handleUpdate(index, row) {
+      this.dialogVisible = true;
+      this.isEdit = true;
+      this.user = Object.assign({}, row);
+    },
+    handleDelete(index, row) {
+      this.$confirm("是否要删除该用户?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        let ids = [];
+        let params = new URLSearchParams();
+        if (index === -1) {
+          if (this.multipleSelection < 1) {
+            this.$message({
+              message: "请选择一条记录",
+              type: "warning",
+              duration: 1000,
+            });
+            return;
+          }
+          for (let i = 0; i < this.multipleSelection.length; i++) {
+            ids.push(this.multipleSelection[i]);
+          }
+        } else {
+          ids.push(row.id);
+        }
+        params.append("ids", ids);
+        deleteUser(params).then((response) => {
+          if (response.code === 200) {
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+            this.getList();
+          }
+        });
+      });
+    },
+    handleDialogConfirm() {
+      this.$refs.userRef.validate((valid) => {
+        if (!valid) {
+          return;
+        }
+        this.$confirm("是否要确认?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          console.log("this.user", this.user);
+          if (this.isEdit) {
+            updateUser(this.user.id, this.user).then((response) => {
+              if (response.code === 200) {
+                this.$message({
+                  message: "修改成功！",
+                  type: "success",
+                });
+                this.dialogVisible = false;
+                this.getList();
+              }
+            });
+          } else {
+            createUser(this.user).then((response) => {
+              console.log("response", response);
+              if (response.code === 200) {
+                this.$message({
+                  message: "添加成功！",
+                  type: "success",
+                });
+                this.dialogVisible = false;
+                this.getList();
+              } else {
+                this.$message({
+                  message: res.message,
+                  type: "success",
+                });
+              }
+            });
+          }
+        });
+      });
+    },
     handleSelectionChange(val) {
       console.log(val);
       //复制id到multipleSelection   map  [3,2,5,6,7]
@@ -442,18 +502,15 @@ export default {
       });
       console.log("选择的id：", this.multipleSelection);
     },
-    /// ////////////////////分页方法
-    // 监听 pagesize 改变的事件
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
-      this.queryInfo.pagesize = val;
+      this.listQuery.pageSize = val;
       this.getList();
     },
 
-    // 监听 页码值 改变的事件
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.queryInfo.pagenum = val; // 获取新页码
+      this.listQuery.pageNum = val; // 获取新页码
       this.getList();
     },
 
@@ -463,11 +520,9 @@ export default {
     },
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
-      console.log("====", this.$refs.addFormRef);
     },
     editDialogClosed() {
       this.$refs.editFormRef.resetFields();
-      console.log("****", this.$refs.editFormRef);
     },
   },
 };
@@ -490,5 +545,10 @@ export default {
   margin-left: 50%;
   left: -680px;
   top: 100px;
+}
+
+.operate-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>

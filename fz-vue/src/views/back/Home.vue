@@ -8,9 +8,10 @@
         </el-col>
 
         <el-col :span="12" style="text-align: right">
-          <!-- <img :src="$store.state.baseURL + user.avatar" style="border-radius: 25px;width:48px;height:48px" /> -->
-          <span class="name">欢迎：<!-- {{user.name}} --></span>
-          <span class="logout" @click="logout">退出</span>
+          <img src="../../assets/img/userface.png" style="border-radius: 25px;width:40px;height:40px" v-if="user.userface == null || user.userface == ''" />
+          <img :src="user.userface" style="border-radius: 25px;width:40px;height:40px" v-else />
+          <span class="name">欢迎：{{ user.username }}</span>
+          <a href="javascript: void(0);" class="logout" @click="logout" style="color: white">退出</a>
         </el-col>
       </el-row>
     </el-header>
@@ -130,6 +131,8 @@
 </template>
 
 <script>
+import { logout } from "@/api/user";
+
 export default {
   data() {
     return {
@@ -145,14 +148,8 @@ export default {
     this.getCurrentUser();
   },
   methods: {
-    async getCurrentUser() {
-      // const { data: res } = await this.$http.post("/user/getCurrentUser");
-      // if (res.code !== 200)
-      //   return this.$message.error("获取失败,原因：" + res.msg);
-      // console.log(res.data);
-      // this.user = res.data;
-      // this.$store.commit("setUser", res.data);
-      // console.log("setuser", this.$store.state.user);
+    getCurrentUser() {
+      this.user = JSON.parse(JSON.stringify(this.$store.state.user.user));
     },
 
     getMenusList() {},
@@ -165,7 +162,15 @@ export default {
     },
     logout() {
       window.sessionStorage.clear(); // 清空
-      this.$router.push("/login"); //跳转
+      logout().then((res) => {
+        if (res.code === 200) {
+          this.$router.push({ path: "/login" });
+          this.$message({
+            message: "登出成功！",
+            type: "success",
+          });
+        }
+      });
     },
   },
 };
@@ -210,6 +215,10 @@ export default {
   top: 60px;
   bottom: 0;
   overflow: hidden;
+}
+
+a:hover {
+  color: chartreuse;
 }
 
 .el-aside .el-menu {

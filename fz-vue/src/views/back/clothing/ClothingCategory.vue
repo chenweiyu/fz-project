@@ -3,7 +3,7 @@
     <el-card>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '//backHome/clothingTable' }"
+        <el-breadcrumb-item :to="{ path: '/backHome/clothingTable' }"
           >服装管理</el-breadcrumb-item
         >
         <el-breadcrumb-item>服装类别管理</el-breadcrumb-item>
@@ -143,6 +143,7 @@ export default {
     },
   },
   methods: {
+    // 重置parentId的值
     resetParentId() {
       this.listQuery.pageNum = 1;
       if (this.$route.query.parentId != null) {
@@ -154,6 +155,7 @@ export default {
     handleAddClothingCate() {
       this.$router.push("/backHome/addClothingCate");
     },
+    // 通过parentId获取所有的类别信息
     getList() {
       fetchList(this.parentId, this.listQuery).then((response) => {
         this.list = response.data.list;
@@ -197,6 +199,7 @@ export default {
         });
       });
     },
+    // 携带一级类别的row.id传给路由页面/backHome/clothingCategory
     handleShowNextLevel(index, row) {
       this.$router.push({
         path: "/backHome/clothingCategory",

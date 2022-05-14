@@ -7,6 +7,13 @@ export function fetchList(params) {
   })
 }
 
+export function fetchusefulList() {
+  return request({
+    url:'/returnReason/usefulList',
+    method:'get',
+  })
+}
+
 export function deleteReason(params) {
   return request({
     url:'/returnReason/delete',

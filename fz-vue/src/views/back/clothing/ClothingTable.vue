@@ -212,7 +212,7 @@
           <el-table-column label="排序" width="100" align="center">
             <template slot-scope="scope">{{ scope.row.sort }}</template>
           </el-table-column>
-          <el-table-column label="SKU库存" width="100" align="center">
+          <!-- <el-table-column label="SKU库存" width="100" align="center">
             <template slot-scope="scope">
               <el-button
                 type="primary"
@@ -221,7 +221,7 @@
                 circle
               ></el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column label="销量" width="100" align="center">
             <template slot-scope="scope">{{ scope.row.sale }}</template>
           </el-table-column>
@@ -651,6 +651,7 @@ export default {
     handlePublishStatusChange(index, row) {
       let ids = [];
       ids.push(row.id);
+      console.log("ids", ids);
       this.updatePublishStatus(row.publishStatus, ids);
     },
     handleRecommendStatusChange(index, row) {
@@ -672,7 +673,7 @@ export default {
         ids.push(row.id);
         this.updateDeleteStatus(1, ids);
       });
-      this.getList();
+      // this.getList();
     },
     handleUpdateGoods(index, row) {
       this.$router.push({
@@ -725,8 +726,8 @@ export default {
           type: "success",
           duration: 1000,
         });
+        this.getList();
       });
-      this.getList();
     },
   },
 };

@@ -34,6 +34,11 @@ import Role from '@/views/back/Role'
 
 Vue.use(Router)
 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+     return originalPush.call(this, location).catch(err => err)
+}
+
 export default new Router({
   mode: 'history',
   routes: [
@@ -53,9 +58,17 @@ export default new Router({
       name: 'LoginIndex'
     },
     {
+      path: '/register',
+      component: () => import('@/views/login/Register'),
+      name: 'Register'
+    },
+    {
       path: '/appIndex',
       name: 'AppIndex',
       component: AppIndex,
+      meta: {
+        requireAuth: true,
+      },
       redirect: '/index',
       children: [
         {
@@ -82,6 +95,11 @@ export default new Router({
           path: '/userDetail',
           name: 'UserDetail',
           component: UserDetail,
+        },
+        {
+          path: '/searchResult',
+          name: 'SearchResult',
+          component: () => import('@/views/front/SearchResult')
         }
       ]
     },
@@ -89,6 +107,9 @@ export default new Router({
       path: '/backHome',
       name: 'Home',
       component: Home,
+      meta: {
+        requireAuth: true,
+      },
       redirect: '/backHome/index',
       children: [
         {
@@ -146,9 +167,24 @@ export default new Router({
           component: OrderTable
         },
         {
+          path: '/backHome/orderDetail',
+          name: 'OrderDetail',
+          component: () => import('@/views/back/order/OrderDetail')
+        },
+        {
+          path: '/backHome/deliverOrderList',
+          name: 'DeliverOrderList',
+          component: () => import('@/views/back/order/DeliverOrderList')
+        },
+        {
           path: '/backHome/orderReturn',
           name: 'OrderReturn',
           component: OrderReturn
+        },
+        {
+          path: '/backHome/ReturnRequestDetail',
+          name: 'ReturnRequestDetail',
+          component: () => import("@/views/back/order/ReturnRequestDetail")
         },
         {
           path: '/backHome/reasonSetting',

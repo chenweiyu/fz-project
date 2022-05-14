@@ -31,7 +31,7 @@
                 </div>
               </el-checkbox-group>
               <el-input v-model="addClothingAttrValue" style="width: 160px;margin-left: 10px" clearable></el-input>
-              <el-button class="littleMarginLeft" @click="handleAddClothingAttrValue(idx)">增加</el-button>
+              <el-button class="littleMarginLeft" @click="handleAddClothingAttrValue(idx)" @keyup.enter.native="handleAddClothingAttrValue(idx)">增加</el-button>
             </div>
           </div>
         </el-card>
@@ -143,7 +143,7 @@
       </el-form-item>
       <el-form-item style="text-align: center">
         <el-button size="medium" @click="handlePrev">上一步，填写商品促销</el-button>
-        <el-button type="primary" size="medium" @click="handleNext">下一步，选择商品关联</el-button>
+        <el-button type="primary" size="medium" @click="handleFinishCommit">完成，提交商品</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -615,6 +615,9 @@
         this.mergeClothingAttrValue();
         this.mergeClothingAttrPics();
         this.$emit('nextStep')
+      },
+      handleFinishCommit(){
+        this.$emit('finishCommit',this.isEdit);
       }
     }
   }

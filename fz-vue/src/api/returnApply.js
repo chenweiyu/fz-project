@@ -7,6 +7,14 @@ export function fetchList(params) {
   })
 }
 
+export function createReturnApply(data) {
+  return request({
+    url: '/returnApply/create',
+    method: 'post',
+    data: data
+  })
+}
+
 export function deleteApply(params) {
   return request({
     url:'/returnApply/delete',

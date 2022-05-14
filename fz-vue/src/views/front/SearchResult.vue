@@ -1,199 +1,24 @@
 <template>
   <div>
-    <section id="hero">
-      <div class="container">
-        <div style="height: 20px; width: 100%"></div>
-        <ul>
-          <li><a href="#portfolio">潮牌服饰</a></li>
-          <li><a href="#team">简约舒适</a></li>
-          <li><a href="#services">运动服饰</a></li>
-          <li><a href="#nation">国风潮流</a></li>
-          <li><a href="#">其他</a></li>
-        </ul>
-        <div class="container-text">
-          <h1>Welcome to F & C</h1>
-          <h2>We are committed to the high quality of clothing brands</h2>
-          <!-- <a href="#about" class="btn-get-started scrollto">Get Started</a> -->
-        </div>
-      </div>
-    </section>
-
-    <main id="main">
-      <!-- ======= Clients Section ======= -->
-      <section id="clients" class="clients section-bg">
-        <div class="container">
-          <div class="row">
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="../../assets/img/clients/auto-1.jpg"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="../../assets/img/clients/client-2.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="../../assets/img/clients/client-3.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="../../assets/img/clients/client-4.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="../../assets/img/clients/client-5.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="../../assets/img/clients/client-6.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="portfolio" class="portfolio">
-        <div class="container">
-          <div class="section-title">
-            <h2>潮牌服饰</h2>
-            <p>不追求过高的价格和太过奢侈的享受，仅看质量和款式!</p>
-            <p>相信您的眼睛，尊尚给您不一样的时尚</p>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-12 d-flex justify-content-center">
-              <ul id="portfolio-flters">
-                <li data-filter="*" class="filter-active">所有</li>
-                <li data-filter=".filter-app">男生</li>
-                <li data-filter=".filter-card">女生</li>
-                <li data-filter=".filter-web">儿童</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="row portfolio-container">
-            <div
-              class="
-                col-lg-4 col-md-6
-                portfolio-item
-                filter-app
-                portfolio-height
-              "
-              v-for="tideGood in tideGoods"
-              :key="tideGood.id"
-            >
-              <img :src="tideGood.pic" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>{{ tideGood.name }}</h4>
-                <p>￥{{ tideGood.price }}元</p>
-                <span style="display: inlink-block; width: 30%">
-                  <a
-                    href="javascript: void(0);"
-                    data-gall="portfolioGallery"
-                    class="venobox preview-link"
-                    title="Buy Clothing"
-                    style="margin-right: 35px; margin-top: 15px"
-                    @click="buyDialogVisible(tideGood.id)"
-                    ><i class="el-icon-sell"></i
-                  ></a>
-                  <a
-                    href="javascript: void(0);"
-                    data-gall="portfolioGallery"
-                    class="venobox preview-link"
-                    title="Add Goods Cart"
-                    style="margin-top: 15px"
-                    @click="submitCartDialogVisible(tideGood.id)"
-                    ><i class="el-icon-shopping-cart-2"></i
-                  ></a>
-                  <a
-                    href="javascript: void(0);"
-                    data-gall="portfolioDetailsGallery"
-                    data-vbtype="iframe"
-                    class="venobox details-link"
-                    title="Clothing Details"
-                    style="margin-top: 15px"
-                    @click="handleGoodsInfo(tideGood.id)"
-                    ><i class="bx bx-link"></i
-                  ></a>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+    <main id="main" style="margin-top: 40px">
       <section id="team" class="team section-bg">
         <div class="container">
-          <div class="section-title">
-            <h2>简约舒适</h2>
-            <p>
-              时尚是具有很强的包容性，所以使得穿衣风格也越来越多样化。但万变不离其宗，舒适简约的穿搭经典又时尚也是大家所追求的。那么在日常生活中舒适的简约风该如何打造呢，才可以让你更时尚惊艳。
-            </p>
-          </div>
+          <h5 style="margin-bottom: 20px" v-if="simpleGoods.length != 0">
+            以下是“<span>{{ listQuery.keyword }}</span
+            >”的搜索结果
+          </h5>
+          <h3
+            v-else
+            style="
+              height: 200px;
+              width: 100%;
+              line-height: 200px;
+              font-weight: bold;
+              margin-left: 35%;
+            "
+          >
+            抱歉！您搜索的服装不存在...
+          </h3>
 
           <div class="row">
             <div
@@ -221,17 +46,16 @@
                 <div class="member-info row">
                   <h5
                     style="
-                      height: 35px;
+                      height: 20px;
                       width: 100%;
                       overflow: hidden;
                       margin-left: 15px;
-                      font-size: 14px;
                     "
                   >
                     {{ simpleGood.name }}
                   </h5>
                   <div class="col-lg-8 col-md-8 col-12">
-                    <span style="margin-top: 5px"
+                    <span style="margin-top: 15px"
                       >￥{{ simpleGood.price }}元</span
                     >
                   </div>
@@ -254,149 +78,6 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <section id="services" class="services">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4">
-              <img
-                src="../../assets/img/sport-1.jpg"
-                style="height: 720px"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-            <div class="col-lg-8 pt-4 pt-lg-0">
-              <div class="section-title">
-                <h2>运动服饰</h2>
-                <p>
-                  C &
-                  F一个中高档运动休闲服品牌，特征集一句吸引人的运动装的宣传语，要求作品主要体现其运动的普遍性及大众化，能贴切消费群体，体现运动，体现我们正在不懈的进取，把品牌做好、做大，要让人觉得亲昵、喜欢，要简单明了，朗朗上口，易于记忆
-                </p>
-              </div>
-              <div class="container">
-                <div class="row">
-                  <div
-                    class="col-lg-4 col-md-6"
-                    v-for="sportGood in sportGoods"
-                    :key="sportGood.id"
-                  >
-                    <a
-                      href="javascript: void(0);"
-                      @click="handleGoodsInfo(sportGood.id)"
-                      ><img
-                        :src="sportGood.pic"
-                        class="img-fluid"
-                        alt=""
-                        style="width: 220px; height: 160px"
-                    /></a>
-                    <div class="sport-info">
-                      <h6>{{ sportGood.name }}</h6>
-                      <p>￥{{ sportGood.price }}元</p>
-                      <div>
-                        <div style="display: inline-block; width: 65px">
-                          <el-tag type="success" size="mini">{{
-                            sportGood.brandName
-                          }}</el-tag>
-                        </div>
-                        <button
-                          class="shopping-cart-button"
-                          @click="submitCartDialogVisible(sportGood.id)"
-                        >
-                          加入购物车
-                        </button>
-                        <button
-                          class="sport-button"
-                          @click="buyDialogVisible(sportGood.id)"
-                        >
-                          购买
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="nation">
-        <section id="team" class="team section-bg">
-          <div class="container">
-            <div class="section-title">
-              <h2>国风潮流</h2>
-              <p>
-                “国潮”从字面来看意为“
-                国风＋潮流”，其以中国文化和传统为基础，集腔调、时尚与格调于一身，是传统与现代的碰撞，更是东方美学的淋漓展现
-              </p>
-            </div>
-
-            <div class="row">
-              <div
-                class="col-lg-3 col-md-6 d-flex align-items-stretch"
-                v-for="nationGood in nationGoods"
-                :key="nationGood.id"
-              >
-                <div class="member" style="height: 360px">
-                  <div class="member-img simpleImg-size">
-                    <img
-                      :src="nationGood.pic"
-                      class="img-fluid nationalImg-size"
-                      alt=""
-                    />
-                    <div class="social">
-                      <a href=""><i class="el-icon-share"></i></a>
-                      <a
-                        href="javascript: void(0);"
-                        @click="handleGoodsInfo(nationGood.id)"
-                        ><i class="el-icon-s-goods"></i
-                      ></a>
-                      <a
-                        href="javascript: void(0);"
-                        @click="submitCartDialogVisible(nationGood.id)"
-                        ><i class="el-icon-shopping-cart-2"></i
-                      ></a>
-                    </div>
-                  </div>
-                  <div class="member-info row">
-                    <h5
-                      style="
-                        height: 35px;
-                        width: 100%;
-                        overflow: hidden;
-                        margin-left: 15px;
-                        font-size: 14px;
-                      "
-                    >
-                      {{ nationGood.name }}
-                    </h5>
-                    <div class="col-lg-8 col-md-8 col-12">
-                    <span
-                      >￥{{ nationGood.price }}元</span
-                    >
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-12">
-                      <button
-                        class="simple-button"
-                        @click="buyDialogVisible(nationGood.id)"
-                      >
-                        购 买
-                      </button>
-                    </div>
-                    <el-tag
-                      type="warning"
-                      size="mini"
-                      style="margin-left: 15px; margin-top: -14px"
-                      >{{ nationGood.brandName }}</el-tag
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </section>
 
       <footer id="footer">
@@ -694,13 +375,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import {
-  fetchTideList,
-  getClothing,
-  fetchSimpleList,
-  fetchSportList,
-  fetchNationList,
-} from "@/api/clothing";
+import { fetchList, getClothing } from "@/api/clothing";
 import { fetchList as fetchClothingAttrList } from "@/api/clothingAttr";
 import { createOrder, updatepayInfo } from "@/api/order";
 import VDistpicker from "v-distpicker";
@@ -736,37 +411,20 @@ export default {
       },
       deliveryCompany: "顺丰快递  |  圆通快递  |  中通快递  |  韵达快递",
 
+      listKeyword: "",
+
       paydialogVisible: false,
       payType: 0,
-
-      tideGoods: [],
       simpleGoods: [],
-      sportGoods: [],
-      nationGoods: [],
       listQuery: {
-        keyword: null,
+        keyword: "",
         pageNum: 1,
         pageSize: 20,
-      },
-      listTideQuery: {
-        keyword: null,
-        pageNum: 1,
-        pageSize: 6,
       },
       listSimpleQuery: {
         keyword: null,
         pageNum: 1,
         pageSize: 4,
-      },
-      listSportQuery: {
-        keyword: null,
-        pageNum: 1,
-        pageSize: 6,
-      },
-      listNationQuery: {
-        keyword: null,
-        pageNum: 1,
-        pageSize: 8,
       },
     };
   },
@@ -805,38 +463,23 @@ export default {
   },
   watch: {
     keyword: function (val) {
-      if (val != "") {
-        this.$router.push({ name: "SearchResult", params: { keyword: val } });
-      }
+      this.listQuery.keyword = val.trim();
+      this.getSimpleGoodsList();
     },
   },
   created() {
-    this.getTideGoodsList();
-    this.getSimpleGoodsList();
-    this.getSportGoodsList();
-    this.getNationGoodsList();
+    console.log(this.listQuery.keyword);
+    if (this.listQuery.keyword == "") {
+      this.listQuery.keyword = this.$route.params.keyword.trim();
+      this.getSimpleGoodsList();
+    }
   },
 
   methods: {
     ...mapActions(["create", "getClothingCart"]),
-    getTideGoodsList() {
-      fetchTideList(this.listTideQuery).then((response) => {
-        this.tideGoods = response.data.list;
-      });
-    },
     getSimpleGoodsList() {
-      fetchSimpleList(this.listSimpleQuery).then((response) => {
+      fetchList(this.listQuery).then((response) => {
         this.simpleGoods = response.data.list;
-      });
-    },
-    getSportGoodsList() {
-      fetchSportList(this.listSportQuery).then((response) => {
-        this.sportGoods = response.data.list;
-      });
-    },
-    getNationGoodsList() {
-      fetchNationList(this.listNationQuery).then((response) => {
-        this.nationGoods = response.data.list;
       });
     },
 
@@ -1120,22 +763,13 @@ export default {
   height: 255px;
 }
 
-.nationalImg-size {
-  width: 255px;
-  height: 200px;
-}
-
-.portfolio-height {
-  height: 300px;
-}
-
 .img-fluid {
   width: 100%;
   height: 100%;
 }
 
 .simple-button {
-  margin-top: 5px;
+  margin-top: 15px;
   width: 60px;
   height: 30px;
   border: 0 none;
@@ -1153,24 +787,8 @@ export default {
   background: #ffc107;
 }
 
-.sport-info {
-  margin: 10px 0;
-}
-
-.sport-info h6 {
-  font-weight: 700;
-  font-size: 16px;
-  color: #414c64;
-}
-
-.sport-info p {
-  font-style: italic;
-  font-size: 15px;
-  margin-bottom: 1px;
-  color: #777777;
-}
-
 .shopping-cart-button {
+  margin-left: 15px;
   margin-bottom: 10px;
   width: 90px;
   height: 25px;
@@ -1185,24 +803,6 @@ export default {
 }
 
 .shopping-cart-button:hover {
-  color: #414c64;
-  background: #ffc107;
-}
-
-.sport-button {
-  width: 50px;
-  height: 25px;
-  border: 0 none;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 500;
-  line-height: 1;
-  color: #444444;
-  background: #fafafc;
-  border-radius: 50px;
-}
-
-.sport-button:hover {
   color: #414c64;
   background: #ffc107;
 }

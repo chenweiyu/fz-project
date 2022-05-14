@@ -23,6 +23,22 @@ Vue.use(ElementUI, { locale })
 Vue.prototype.$qs=qs;
 Vue.use(VCharts)
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    if (store.state.user.user.userId != undefined && store.state.user.user.userId != null) {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  }
+  else {
+    next();
+  }
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
