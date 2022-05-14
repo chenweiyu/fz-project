@@ -16,7 +16,6 @@ public class TokenCache {
      * @param token
      */
     public static void setToken(String username,String token) {
-
         cache.put(TOKEN_KEY+username,token);
     }
 

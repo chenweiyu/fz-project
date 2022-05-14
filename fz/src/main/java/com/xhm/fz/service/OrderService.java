@@ -6,21 +6,31 @@ import java.util.List;
 import com.xhm.fz.dto.MoneyInfoParam;
 import com.xhm.fz.dto.OrderDeliveryParam;
 import com.xhm.fz.dto.OrderDetail;
+import com.xhm.fz.dto.OrderParam;
 import com.xhm.fz.dto.OrderQueryParam;
+import com.xhm.fz.dto.PayInfoParam;
 import com.xhm.fz.dto.ReceiverInfoParam;
+import com.xhm.fz.entity.Clothing;
 import com.xhm.fz.entity.Order;
 
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 订单管理Service
- * Created by xhm on 2018/10/11.
- */
 public interface OrderService {
     /**
      * 订单查询
      */
     List<Order> list(OrderQueryParam queryParam, Integer pageSize, Integer pageNum);
+
+    /**
+     * 添加订单
+     */
+    Long createOrder(Order order, Clothing clothing, int orderClothingNum, String orderClothingColor, String orderClothingSize);
+
+    long[] createOrderBatch(List<OrderParam> orderParam);
+
+    List<OrderDetail> userOrderList(Integer userId, Integer pageSize, Integer pageNum);
+
+    int updatePayInfo(PayInfoParam payInfoParam);
 
     /**
      * 批量发货

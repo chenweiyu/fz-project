@@ -1,13 +1,17 @@
 package com.xhm.fz.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+
+import io.swagger.annotations.ApiModelProperty;
+
 public class Order implements Serializable {
     @ApiModelProperty(value = "订单id")
     private Long id;
+
+    private Integer userId;
 
     private Long memberId;
 
@@ -49,10 +53,10 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "订单来源：0->PC订单；1->app订单")
     private Integer sourceType;
 
-    @ApiModelProperty(value = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单")
+    @ApiModelProperty(value = "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单；6->已收货")
     private Integer status;
 
-    @ApiModelProperty(value = "订单类型：0->正常订单；1->秒杀订单")
+    @ApiModelProperty(value = "订单类型：0->正常订单；1->秒杀订单；2->退款中的订单；3->退款成功的订单")
     private Integer orderType;
 
     @ApiModelProperty(value = "物流公司(配送方式)")
@@ -135,6 +139,7 @@ public class Order implements Serializable {
 
     @ApiModelProperty(value = "修改时间")
     private Date modifyTime;
+    
 
     private static final long serialVersionUID = 1L;
 
@@ -144,6 +149,14 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Long getMemberId() {

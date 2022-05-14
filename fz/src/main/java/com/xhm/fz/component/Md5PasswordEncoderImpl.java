@@ -3,10 +3,7 @@ package com.xhm.fz.component;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.DigestUtils;
 
-/**
- * @Author xiumu
- * @Date 2020/5/29 14:53
- */
+
 public class Md5PasswordEncoderImpl implements PasswordEncoder {
     @Override
     public String encode(CharSequence charSequence) {

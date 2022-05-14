@@ -1,21 +1,17 @@
 package com.xhm.fz.dao;
 
-import com.xhm.fz.entity.AdminRoleRelation;
+import com.xhm.fz.entity.UserRoleRelation;
 import com.xhm.fz.entity.Resource;
 import com.xhm.fz.entity.Role;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * 后台用户与角色关系管理自定义Dao
- * Created by xhm on 2018/10/8.
- */
 public interface AdminRoleRelationDao {
     /**
      * 批量插入用户角色关系
      */
-    int insertList(@Param("list") List<AdminRoleRelation> adminRoleRelationList);
+    int insertList(@Param("list") List<UserRoleRelation> adminRoleRelationList);
 
     /**
      * 获取用于所有角色

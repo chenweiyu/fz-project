@@ -146,13 +146,17 @@
       order by ${orderByClause}
     </if>
   </select>
+  <!-- WHERE clothing_category_id IN (7, 8, 9, 10, 11, 19) -->
   <select id="selectByExampleWithCategoryTide" parameterType="com.xhm.fz.entity.ClothingExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    FROM clothing WHERE clothing_category_id IN (7, 8, 9, 10, 11, 19)
+    FROM clothing
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -163,7 +167,10 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-      FROM clothing WHERE clothing_category_id BETWEEN 29 AND 34
+    FROM clothing
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -174,7 +181,10 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-      FROM clothing WHERE clothing_category_id BETWEEN 35 AND 41
+    FROM clothing
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -185,13 +195,16 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-      FROM clothing WHERE clothing_category_id BETWEEN 43 AND 47
+    FROM clothing
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -641,8 +654,8 @@
     set id = #{record.id,jdbcType=BIGINT},
       brand_id = #{record.brandId,jdbcType=BIGINT},
       clothing_category_id = #{record.clothingCategoryId,jdbcType=BIGINT},
-      <!-- feight_template_id = #{record.feightTemplateId,jdbcType=BIGINT}, -->
-      clothing_attribute_category_id = #{record.clothingAttributeCategoryId,jdbcType=BIGINT},
+    <!-- feight_template_id = #{record.feightTemplateId,jdbcType=BIGINT}, -->
+    clothing_attribute_category_id = #{record.clothingAttributeCategoryId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       pic = #{record.pic,jdbcType=VARCHAR},
       clothing_sn = #{record.clothingSn,jdbcType=VARCHAR},
@@ -677,7 +690,7 @@
       brand_name = #{record.brandName,jdbcType=VARCHAR},
       clothing_category_name = #{record.clothingCategoryName,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=LONGVARCHAR}
-      <!-- detail_desc = #{record.detailDesc,jdbcType=LONGVARCHAR},
+    <!-- detail_desc = #{record.detailDesc,jdbcType=LONGVARCHAR},
       detail_html = #{record.detailHtml,jdbcType=LONGVARCHAR},
       detail_mobile_html = #{record.detailMobileHtml,jdbcType=LONGVARCHAR} -->
     <if test="_parameter != null">
@@ -689,8 +702,8 @@
     set id = #{record.id,jdbcType=BIGINT},
       brand_id = #{record.brandId,jdbcType=BIGINT},
       clothing_category_id = #{record.clothingCategoryId,jdbcType=BIGINT},
-      <!-- feight_template_id = #{record.feightTemplateId,jdbcType=BIGINT}, -->
-      clothing_attribute_category_id = #{record.clothingAttributeCategoryId,jdbcType=BIGINT},
+    <!-- feight_template_id = #{record.feightTemplateId,jdbcType=BIGINT}, -->
+    clothing_attribute_category_id = #{record.clothingAttributeCategoryId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       pic = #{record.pic,jdbcType=VARCHAR},
       clothing_sn = #{record.clothingSn,jdbcType=VARCHAR},
@@ -861,8 +874,8 @@
     update clothing
     set brand_id = #{brandId,jdbcType=BIGINT},
       clothing_category_id = #{clothingCategoryId,jdbcType=BIGINT},
-      <!-- feight_template_id = #{feightTemplateId,jdbcType=BIGINT}, -->
-      clothing_attribute_category_id = #{clothingAttributeCategoryId,jdbcType=BIGINT},
+    <!-- feight_template_id = #{feightTemplateId,jdbcType=BIGINT}, -->
+    clothing_attribute_category_id = #{clothingAttributeCategoryId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       pic = #{pic,jdbcType=VARCHAR},
       clothing_sn = #{clothingSn,jdbcType=VARCHAR},
@@ -897,7 +910,7 @@
       brand_name = #{brandName,jdbcType=VARCHAR},
       clothing_category_name = #{clothingCategoryName,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
-      <!-- detail_desc = #{detailDesc,jdbcType=LONGVARCHAR},
+    <!-- detail_desc = #{detailDesc,jdbcType=LONGVARCHAR},
       detail_html = #{detailHtml,jdbcType=LONGVARCHAR},
       detail_mobile_html = #{detailMobileHtml,jdbcType=LONGVARCHAR} -->
     where id = #{id,jdbcType=BIGINT}
@@ -906,8 +919,8 @@
     update clothing
     set brand_id = #{brandId,jdbcType=BIGINT},
       clothing_category_id = #{clothingCategoryId,jdbcType=BIGINT},
-      <!-- feight_template_id = #{feightTemplateId,jdbcType=BIGINT}, -->
-      clothing_attribute_category_id = #{clothingAttributeCategoryId,jdbcType=BIGINT},
+    <!-- feight_template_id = #{feightTemplateId,jdbcType=BIGINT}, -->
+    clothing_attribute_category_id = #{clothingAttributeCategoryId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       pic = #{pic,jdbcType=VARCHAR},
       clothing_sn = #{clothingSn,jdbcType=VARCHAR},

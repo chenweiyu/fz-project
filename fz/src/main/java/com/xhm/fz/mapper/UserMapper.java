@@ -1,6 +1,9 @@
 package com.xhm.fz.mapper;
 
+import java.util.List;
+
 import com.xhm.fz.entity.User;
+import com.xhm.fz.entity.UserExample;
 
 /**
  * @Author xhm
@@ -13,4 +16,18 @@ public interface UserMapper {
      * @return
      */
     User selectByUserName(String username);
+
+    int updateByIdUser(User record);
+
+    List<User> selectByExample(UserExample example);
+
+    User selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(User user);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(User user);
+
+    int deleteByExample(UserExample example);
 }

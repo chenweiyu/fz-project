@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.dao.ClothingCartDao">
+    <resultMap id="clothingCartDetailResultMap" type="com.xhm.fz.dto.ClothingCartDetail">
+        <collection property="clothingList" resultMap="com.xhm.fz.mapper.ClothingMapper.BaseResultMap" columnPrefix="clothing_"/>
+        <collection property="clothingCartList" resultMap="com.xhm.fz.mapper.ClothingCartMapper.BaseResultMap" columnPrefix="cart_"/>
+    </resultMap>
+
+    <select id="getDetail" resultMap="clothingCartDetailResultMap">
+        SELECT
+            c.id clothing_id,
+            c.brand_id clothing_brand_id, 
+            c.clothing_category_id clothing_clothing_category_id, 
+            c.clothing_attribute_category_id clothing_clothing_attribute_category_id, 
+            c.name clothing_name,
+            c.pic clothing_pic,
+            c.clothing_sn clothing_clothing_sn,
+            c.delete_status clothing_delete_status, 
+            c.publish_status clothing_publish_status, 
+            c.new_status clothing_new_status, 
+            c.recommand_status clothing_recommand_status,
+            c.verify_status clothing_verify_status, 
+            c.sort clothing_sort, 
+            c.sale clothing_sale,
+            c.price clothing_price,
+            c.promotion_price clothing_promotion_price, 
+            c.gift_growth clothing_gift_growth, 
+            c.gift_point clothing_gift_point, 
+            c.use_point_limit clothing_use_point_limit, 
+            c.sub_title clothing_sub_title,
+            c.original_price clothing_original_price,
+            c.stock clothing_stock, 
+            c.low_stock clothing_low_stock, 
+            c.unit clothing_unit, 
+            c.weight clothing_weight, 
+            c.preview_status clothing_preview_status,
+            c.service_ids clothing_service_ids,
+            c.keywords clothing_keywords, 
+            c.note clothing_note, 
+            c.album_pics clothing_album_pics,
+            c.detail_title clothing_detail_title, 
+            c.promotion_start_time clothing_promotion_start_time, 
+            c.promotion_end_time clothing_promotion_end_time, 
+            c.promotion_per_limit clothing_promotion_per_limit, 
+            c.promotion_type clothing_promotion_type, 
+            c.brand_name clothing_brand_name,
+            c.clothing_category_name clothing_category_name,
+            cc.id cart_id,
+            cc.user_id cart_user_id,
+            cc.clothing_id cart_clothing_id,
+            cc.clothing_num cart_clothing_num,
+            cc.clothing_color cart_clothing_color,
+            cc.clothing_size cart_clothing_size,
+            cc.entry_time cart_entry_time
+        FROM 
+            `clothing_cart` cc LEFT JOIN clothing c ON cc.clothing_id = c.id
+        WHERE 
+            cc.user_id = #{queryParam.userId}
+        ORDER BY cc.entry_time DESC
+    </select>
+</mapper>

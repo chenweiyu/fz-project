@@ -260,10 +260,14 @@ public class ClothingServiceImpl implements ClothingService {
 
     @Override
     public List<Clothing> listTide(ClothingQueryParam clothingQueryParam, Integer pageSize, Integer pageNum) {
+        Long value1 = 7L;
+        Long value2 = 12L;
         PageHelper.startPage(pageNum, pageSize);
         ClothingExample clothingExample = new ClothingExample();
         ClothingExample.Criteria criteria = clothingExample.createCriteria();
         criteria.andDeleteStatusEqualTo(0);
+        criteria.andPublishStatusEqualTo(1);
+        criteria.andClothingCategoryIdBetween(value1, value2);
         if (clothingQueryParam.getClothingCategoryId() != null) {
             criteria.andClothingCategoryIdEqualTo(clothingQueryParam.getClothingCategoryId());
         }
@@ -272,10 +276,14 @@ public class ClothingServiceImpl implements ClothingService {
 
     @Override
     public List<Clothing> listSimple(ClothingQueryParam clothingQueryParam, Integer pageSize, Integer pageNum) {
+        Long value1 = 29L;
+        Long value2 = 34L;
         PageHelper.startPage(pageNum, pageSize);
         ClothingExample clothingExample = new ClothingExample();
         ClothingExample.Criteria criteria = clothingExample.createCriteria();
         criteria.andDeleteStatusEqualTo(0);
+        criteria.andPublishStatusEqualTo(1);
+        criteria.andClothingCategoryIdBetween(value1, value2);
         if (clothingQueryParam.getClothingCategoryId() != null) {
             criteria.andClothingCategoryIdEqualTo(clothingQueryParam.getClothingCategoryId());
         }
@@ -284,10 +292,14 @@ public class ClothingServiceImpl implements ClothingService {
 
     @Override
     public List<Clothing> listSport(ClothingQueryParam clothingQueryParam, Integer pageSize, Integer pageNum) {
+        Long value1 = 35L;
+        Long value2 = 41L;
         PageHelper.startPage(pageNum, pageSize);
         ClothingExample clothingExample = new ClothingExample();
         ClothingExample.Criteria criteria = clothingExample.createCriteria();
         criteria.andDeleteStatusEqualTo(0);
+        criteria.andPublishStatusEqualTo(1);
+        criteria.andClothingCategoryIdBetween(value1, value2);
         if (clothingQueryParam.getClothingCategoryId() != null) {
             criteria.andClothingCategoryIdEqualTo(clothingQueryParam.getClothingCategoryId());
         }
@@ -296,10 +308,14 @@ public class ClothingServiceImpl implements ClothingService {
 
     @Override
     public List<Clothing> listNation(ClothingQueryParam clothingQueryParam, Integer pageSize, Integer pageNum) {
+        Long value1 = 43L;
+        Long value2 = 47L;
         PageHelper.startPage(pageNum, pageSize);
         ClothingExample clothingExample = new ClothingExample();
         ClothingExample.Criteria criteria = clothingExample.createCriteria();
         criteria.andDeleteStatusEqualTo(0);
+        criteria.andPublishStatusEqualTo(1);
+        criteria.andClothingCategoryIdBetween(value1, value2);
         if (clothingQueryParam.getClothingCategoryId() != null) {
             criteria.andClothingCategoryIdEqualTo(clothingQueryParam.getClothingCategoryId());
         }

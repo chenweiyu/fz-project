@@ -1,19 +1,22 @@
 package com.xhm.fz.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
 import com.github.pagehelper.PageHelper;
 import com.xhm.fz.dao.OrderReturnApplyDao;
 import com.xhm.fz.dto.OrderReturnApplyResult;
 import com.xhm.fz.dto.ReturnApplyQueryParam;
 import com.xhm.fz.dto.UpdateStatusParam;
-import com.xhm.fz.mapper.OrderReturnApplyMapper;
+import com.xhm.fz.entity.Order;
 import com.xhm.fz.entity.OrderReturnApply;
 import com.xhm.fz.entity.OrderReturnApplyExample;
+import com.xhm.fz.mapper.OrderMapper;
+import com.xhm.fz.mapper.OrderReturnApplyMapper;
 import com.xhm.fz.service.OrderReturnApplyService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * 订单退货管理Service实现类
@@ -25,10 +28,18 @@ public class OrderReturnApplyServiceImpl implements OrderReturnApplyService {
     private OrderReturnApplyDao returnApplyDao;
     @Autowired
     private OrderReturnApplyMapper returnApplyMapper;
+    @Autowired
+    private OrderMapper orderMapper;
     @Override
     public List<OrderReturnApply> list(ReturnApplyQueryParam queryParam, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
         return returnApplyDao.getList(queryParam);
+    }
+
+    @Override
+    public int createReturnApply(OrderReturnApply orderReturnApply) {
+        orderReturnApply.setCreateTime(new Date());
+        return returnApplyMapper.insert(orderReturnApply);
     }
 
     @Override
@@ -68,6 +79,10 @@ public class OrderReturnApplyServiceImpl implements OrderReturnApplyService {
         }else{
             return 0;
         }
+        Order order = new Order();
+        order.setId(statusParam.getOrderId());
+        order.setOrderType(3);
+        orderMapper.updateByPrimaryKeySelective(order);
         return returnApplyMapper.updateByPrimaryKeySelective(returnApply);
     }
 

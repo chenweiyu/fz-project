@@ -12,8 +12,6 @@ public class Clothing implements Serializable {
 
     private Long clothingCategoryId;
 
-    // private Long feightTemplateId;
-
     private Long clothingAttributeCategoryId;
 
     private String name;
@@ -113,12 +111,6 @@ public class Clothing implements Serializable {
     private String description;
 
     private String detailDesc;
-
-    // @ApiModelProperty(value = "产品详情网页内容")
-    // private String detailHtml;
-
-    // @ApiModelProperty(value = "移动端网页详情")
-    // private String detailMobileHtml;
 
     private static final long serialVersionUID = 1L;
 

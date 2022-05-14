@@ -27,4 +27,6 @@ public interface OrderDao {
      * 获取订单详情
      */
     OrderDetail getDetail(@Param("id") Long id);
+
+    List<OrderDetail> getUserOrder(@Param("userId") Integer userId);
 }

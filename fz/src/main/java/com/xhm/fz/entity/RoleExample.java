@@ -115,52 +115,52 @@ public class RoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -305,66 +305,6 @@ public class RoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andAdminCountIsNull() {
-            addCriterion("admin_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountIsNotNull() {
-            addCriterion("admin_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountEqualTo(Integer value) {
-            addCriterion("admin_count =", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountNotEqualTo(Integer value) {
-            addCriterion("admin_count <>", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountGreaterThan(Integer value) {
-            addCriterion("admin_count >", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("admin_count >=", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountLessThan(Integer value) {
-            addCriterion("admin_count <", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountLessThanOrEqualTo(Integer value) {
-            addCriterion("admin_count <=", value, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountIn(List<Integer> values) {
-            addCriterion("admin_count in", values, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountNotIn(List<Integer> values) {
-            addCriterion("admin_count not in", values, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountBetween(Integer value1, Integer value2) {
-            addCriterion("admin_count between", value1, value2, "adminCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andAdminCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("admin_count not between", value1, value2, "adminCount");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -482,66 +422,6 @@ public class RoleExample {
 
         public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("status not between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortIsNull() {
-            addCriterion("sort is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortIsNotNull() {
-            addCriterion("sort is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortEqualTo(Integer value) {
-            addCriterion("sort =", value, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortNotEqualTo(Integer value) {
-            addCriterion("sort <>", value, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortGreaterThan(Integer value) {
-            addCriterion("sort >", value, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sort >=", value, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortLessThan(Integer value) {
-            addCriterion("sort <", value, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortLessThanOrEqualTo(Integer value) {
-            addCriterion("sort <=", value, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortIn(List<Integer> values) {
-            addCriterion("sort in", values, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortNotIn(List<Integer> values) {
-            addCriterion("sort not in", values, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortBetween(Integer value1, Integer value2) {
-            addCriterion("sort between", value1, value2, "sort");
-            return (Criteria) this;
-        }
-
-        public Criteria andSortNotBetween(Integer value1, Integer value2) {
-            addCriterion("sort not between", value1, value2, "sort");
             return (Criteria) this;
         }
     }

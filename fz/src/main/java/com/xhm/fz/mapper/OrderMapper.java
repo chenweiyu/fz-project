@@ -1,12 +1,19 @@
 package com.xhm.fz.mapper;
 
+import java.util.List;
+
 import com.xhm.fz.entity.Order;
 import com.xhm.fz.entity.OrderExample;
-import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderMapper {
     long countByExample(OrderExample example);
+
+    int insertByExample(Order order);
+
+    int insertBatchOrderExample(List<Order> order);
+
 
     int deleteByExample(OrderExample example);
 
@@ -19,6 +26,8 @@ public interface OrderMapper {
     List<Order> selectByExample(OrderExample example);
 
     Order selectByPrimaryKey(Long id);
+
+    Order selectByOrderSn(String orderSn);
 
     int updateByExampleSelective(@Param("record") Order record, @Param("example") OrderExample example);
 

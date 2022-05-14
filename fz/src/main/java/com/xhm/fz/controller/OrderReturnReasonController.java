@@ -65,6 +65,14 @@ public class OrderReturnReasonController {
         return CommonResult.success(CommonPage.restPage(reasonList));
     }
 
+    @ApiOperation("查询可用的退货原因")
+    @RequestMapping(value = "/usefulList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<OrderReturnReason>> usefulList() {
+        List<OrderReturnReason> reasonUsefulList = orderReturnReasonService.usefulList();
+        return CommonResult.success(CommonPage.restPage(reasonUsefulList));
+    }
+
     @ApiOperation("获取单个退货原因详情信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody

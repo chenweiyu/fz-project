@@ -2,37 +2,37 @@ package com.xhm.fz.entity;
 
 import java.io.Serializable;
 
-public class AdminRoleRelation implements Serializable {
-    private Long id;
+public class UserRoleRelation implements Serializable {
+    private Integer id;
 
-    private Long adminId;
+    private Integer uid;
 
-    private Long roleId;
+    private Integer rid;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getAdminId() {
-        return adminId;
+    public Integer getUid() {
+        return uid;
     }
 
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Integer getRid() {
+        return rid;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRid(Integer rid) {
+        this.rid = rid;
     }
 
     @Override
@@ -42,8 +42,8 @@ public class AdminRoleRelation implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", adminId=").append(adminId);
-        sb.append(", roleId=").append(roleId);
+        sb.append(", uid=").append(uid);
+        sb.append(", rid=").append(rid);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

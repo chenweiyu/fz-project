@@ -11,18 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import com.xhm.fz.common.api.CommonResult;
 import com.xhm.fz.component.JwtTokenUtil;
 import com.xhm.fz.component.TokenCache;
+import com.xhm.fz.entity.User;
+import com.xhm.fz.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+
 /**
  * 登录成功操作
  */
 @Component
 public class MyAuthenticationSuccessHandler extends JSONAuthentication implements AuthenticationSuccessHandler {
+
+    @Autowired
+    UserService userService;
 
 
     @Override
@@ -49,11 +56,17 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
         }
 
         // System.out.println("设置token:" + token);
-        
+        User user = userService.getUserByUserName(userDetails.getUsername());
         Map<String,Object> map = new HashMap<>();
-        map.put("username",userDetails.getUsername());
-        map.put("auth",userDetails.getAuthorities());
-        map.put("token",token);
+        map.put("userId", user.getId());
+        map.put("username", userDetails.getUsername());
+        map.put("nickname", user.getNickname());
+        map.put("userface", user.getUserface());
+        map.put("phone", user.getPhone());
+        map.put("email", user.getEmail());
+        map.put("sex", user.getSex());
+        map.put("auth", userDetails.getAuthorities());
+        map.put("token", token);
         //装入token
         CommonResult<Map<String,Object>> data = CommonResult.success(map);
         //输出

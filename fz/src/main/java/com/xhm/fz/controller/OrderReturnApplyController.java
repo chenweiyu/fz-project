@@ -1,5 +1,7 @@
 package com.xhm.fz.controller;
 
+import java.util.List;
+
 import com.xhm.fz.common.api.CommonPage;
 import com.xhm.fz.common.api.CommonResult;
 import com.xhm.fz.dto.OrderReturnApplyResult;
@@ -7,18 +9,21 @@ import com.xhm.fz.dto.ReturnApplyQueryParam;
 import com.xhm.fz.dto.UpdateStatusParam;
 import com.xhm.fz.entity.OrderReturnApply;
 import com.xhm.fz.service.OrderReturnApplyService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
-/**
- * 订单退货申请管理Controller
- * Created by xhm on 2018/10/18.
- */
+@Slf4j
 @Controller
 @Api(tags = "OrderReturnApplyController", description = "订单退货申请管理")
 @RequestMapping("/returnApply")
@@ -34,6 +39,18 @@ public class OrderReturnApplyController {
                                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<OrderReturnApply> returnApplyList = returnApplyService.list(queryParam, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(returnApplyList));
+    }
+
+    @ApiOperation(value = "添加订单退款申请")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    public <T> CommonResult<Integer> create(@RequestBody OrderReturnApply orderReturnApply) {
+        int count = returnApplyService.createReturnApply(orderReturnApply);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
     }
 
     @ApiOperation("批量删除退货申请")

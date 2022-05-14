@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 public class UpdateStatusParam {
     @ApiModelProperty("服务单号")
     private Long id;
+    @ApiModelProperty("订单id")
+    private Long orderId;
     @ApiModelProperty("收货地址关联id")
     private Long companyAddressId;
     @ApiModelProperty("确认退款金额")

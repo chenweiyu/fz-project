@@ -4,10 +4,6 @@ import com.xhm.fz.entity.OrderReturnReason;
 
 import java.util.List;
 
-/**
- * 退货原因管理Service
- * Created by xhm on 2018/10/17.
- */
 public interface OrderReturnReasonService {
     /**
      * 添加退货原因
@@ -28,6 +24,8 @@ public interface OrderReturnReasonService {
      * 分页获取退货原因
      */
     List<OrderReturnReason> list(Integer pageSize, Integer pageNum);
+
+    List<OrderReturnReason> usefulList();
 
     /**
      * 批量修改退货原因状态

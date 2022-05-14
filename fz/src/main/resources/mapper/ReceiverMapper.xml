@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhm.fz.mapper.ReceiverMapper">
+    <resultMap id="BaseResultMap" type="com.xhm.fz.entity.Receiver">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="user_id" jdbcType="INTEGER" property="userId" />
+      <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+      <result column="receiver_phone" jdbcType="VARCHAR" property="receiverPhone" />
+      <result column="receiver_province" jdbcType="VARCHAR" property="receiverProvince" />
+      <result column="receiver_city" jdbcType="VARCHAR" property="receiverCity" />
+      <result column="receiver_region" jdbcType="VARCHAR" property="receiverRegion" />
+      <result column="receiver_detail_address" jdbcType="VARCHAR" property="receiverDetailAddress" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, receiver_name, receiver_phone, receiver_province, receiver_city, receiver_region, receiver_detail_address
+    </sql>
+
+    <select id="selectByExample" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from receiver
+        where user_id = #{uid,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.xhm.fz.entity.Receiver">
+        update receiver
+        <set>
+          <if test="receiverName != null">
+            receiver_name = #{receiverName,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverPhone != null">
+            receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverProvince != null">
+            receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverCity != null">
+            receiver_city = #{receiverCity,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverRegion != null">
+            receiver_region = #{receiverRegion,jdbcType=VARCHAR},
+          </if>
+          <if test="receiverDetailAddress != null">
+            receiver_detail_address = #{receiverDetailAddress,jdbcType=VARCHAR},
+          </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+      </update>
+    
+</mapper>

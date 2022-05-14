@@ -40,6 +40,7 @@
             AND (return_name LIKE concat("%",#{queryParam.receiverKeyword},"%")
             OR return_phone LIKE concat("%",#{queryParam.receiverKeyword},"%"))
         </if>
+        order by id desc
     </select>
     <select id="getDetail" resultMap="returnApplyDetailResultMap">
         SELECT

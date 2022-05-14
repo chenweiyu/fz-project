@@ -18,6 +18,8 @@ public interface OrderReturnReasonMapper {
 
     List<OrderReturnReason> selectByExample(OrderReturnReasonExample example);
 
+    List<OrderReturnReason> selectByUserfulExample(OrderReturnReasonExample example);
+
     OrderReturnReason selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") OrderReturnReason record, @Param("example") OrderReturnReasonExample example);

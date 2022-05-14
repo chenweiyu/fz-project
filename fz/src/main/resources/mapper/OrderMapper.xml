@@ -3,6 +3,7 @@
 <mapper namespace="com.xhm.fz.mapper.OrderMapper">
   <resultMap id="BaseResultMap" type="com.xhm.fz.entity.Order">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="member_id" jdbcType="BIGINT" property="memberId" />
     <result column="coupon_id" jdbcType="BIGINT" property="couponId" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
@@ -106,7 +107,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, coupon_id, order_sn, create_time, member_username, total_amount, pay_amount, 
+    id, user_id, member_id, coupon_id, order_sn, create_time, member_username, total_amount, pay_amount, 
     freight_amount, promotion_amount, integration_amount, coupon_amount, discount_amount, 
     pay_type, source_type, status, order_type, delivery_company, delivery_sn, auto_confirm_day, 
     integration, growth, promotion_info, bill_type, bill_header, bill_content, bill_receiver_phone, 
@@ -128,8 +129,14 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByOrderSn" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    where order_sn = #{orderSn, jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from order
     where id = #{id,jdbcType=BIGINT}
@@ -144,41 +151,82 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xhm.fz.entity.Order">
+  <insert id="insertByExample" parameterType="com.xhm.fz.entity.Order" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into order (member_id, coupon_id, order_sn, 
-      create_time, member_username, total_amount, 
-      pay_amount, freight_amount, promotion_amount, 
-      integration_amount, coupon_amount, discount_amount, 
-      pay_type, source_type, status, 
-      order_type, delivery_company, delivery_sn, 
-      auto_confirm_day, integration, growth, 
-      promotion_info, bill_type, bill_header, 
-      bill_content, bill_receiver_phone, bill_receiver_email, 
-      receiver_name, receiver_phone, receiver_post_code, 
-      receiver_province, receiver_city, receiver_region, 
-      receiver_detail_address, note, confirm_status, 
-      delete_status, use_integration, payment_time, 
-      delivery_time, receive_time, comment_time, 
-      modify_time)
-    values (#{memberId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{memberUsername,jdbcType=VARCHAR}, #{totalAmount,jdbcType=DECIMAL}, 
-      #{payAmount,jdbcType=DECIMAL}, #{freightAmount,jdbcType=DECIMAL}, #{promotionAmount,jdbcType=DECIMAL}, 
-      #{integrationAmount,jdbcType=DECIMAL}, #{couponAmount,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, 
-      #{payType,jdbcType=INTEGER}, #{sourceType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{orderType,jdbcType=INTEGER}, #{deliveryCompany,jdbcType=VARCHAR}, #{deliverySn,jdbcType=VARCHAR}, 
-      #{autoConfirmDay,jdbcType=INTEGER}, #{integration,jdbcType=INTEGER}, #{growth,jdbcType=INTEGER}, 
-      #{promotionInfo,jdbcType=VARCHAR}, #{billType,jdbcType=INTEGER}, #{billHeader,jdbcType=VARCHAR}, 
-      #{billContent,jdbcType=VARCHAR}, #{billReceiverPhone,jdbcType=VARCHAR}, #{billReceiverEmail,jdbcType=VARCHAR}, 
-      #{receiverName,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverPostCode,jdbcType=VARCHAR}, 
-      #{receiverProvince,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, #{receiverRegion,jdbcType=VARCHAR}, 
-      #{receiverDetailAddress,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{confirmStatus,jdbcType=INTEGER}, 
-      #{deleteStatus,jdbcType=INTEGER}, #{useIntegration,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
-      #{deliveryTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{commentTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP})
+    insert into `order` (user_id, member_id, coupon_id, order_sn, 
+    create_time, member_username, total_amount, 
+    pay_amount, freight_amount, promotion_amount, 
+    integration_amount, coupon_amount, discount_amount, 
+    pay_type, source_type, status, 
+    order_type, delivery_company, delivery_sn, 
+    auto_confirm_day, integration, growth, 
+    promotion_info, bill_type, bill_header, 
+    bill_content, bill_receiver_phone, bill_receiver_email, 
+    receiver_name, receiver_phone, receiver_post_code, 
+    receiver_province, receiver_city, receiver_region, 
+    receiver_detail_address, note, confirm_status, 
+    delete_status, use_integration, payment_time, 
+    delivery_time, receive_time, comment_time, 
+    modify_time)
+    values (#{userId,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, 
+    #{createTime,jdbcType=TIMESTAMP}, #{memberUsername,jdbcType=VARCHAR}, #{totalAmount,jdbcType=DECIMAL}, 
+    #{payAmount,jdbcType=DECIMAL}, #{freightAmount,jdbcType=DECIMAL}, #{promotionAmount,jdbcType=DECIMAL}, 
+    #{integrationAmount,jdbcType=DECIMAL}, #{couponAmount,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, 
+    #{payType,jdbcType=INTEGER}, #{sourceType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+    #{orderType,jdbcType=INTEGER}, #{deliveryCompany,jdbcType=VARCHAR}, #{deliverySn,jdbcType=VARCHAR}, 
+    #{autoConfirmDay,jdbcType=INTEGER}, #{integration,jdbcType=INTEGER}, #{growth,jdbcType=INTEGER}, 
+    #{promotionInfo,jdbcType=VARCHAR}, #{billType,jdbcType=INTEGER}, #{billHeader,jdbcType=VARCHAR}, 
+    #{billContent,jdbcType=VARCHAR}, #{billReceiverPhone,jdbcType=VARCHAR}, #{billReceiverEmail,jdbcType=VARCHAR}, 
+    #{receiverName,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverPostCode,jdbcType=VARCHAR}, 
+    #{receiverProvince,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, #{receiverRegion,jdbcType=VARCHAR}, 
+    #{receiverDetailAddress,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{confirmStatus,jdbcType=INTEGER}, 
+    #{deleteStatus,jdbcType=INTEGER}, #{useIntegration,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
+    #{deliveryTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{commentTime,jdbcType=TIMESTAMP}, 
+    #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
+
+  <insert id="insertBatchOrderExample" useGeneratedKeys="true" parameterType="java.util.List">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `order` (user_id, member_id, coupon_id, order_sn, 
+    create_time, member_username, total_amount, 
+    pay_amount, freight_amount, promotion_amount, 
+    integration_amount, coupon_amount, discount_amount, 
+    pay_type, source_type, status, 
+    order_type, delivery_company, delivery_sn, 
+    auto_confirm_day, integration, growth, 
+    promotion_info, bill_type, bill_header, 
+    bill_content, bill_receiver_phone, bill_receiver_email, 
+    receiver_name, receiver_phone, receiver_post_code, 
+    receiver_province, receiver_city, receiver_region, 
+    receiver_detail_address, note, confirm_status, 
+    delete_status, use_integration, payment_time, 
+    delivery_time, receive_time, comment_time, 
+    modify_time)
+    values
+    <foreach collection="list" item="order" index="index" separator=",">
+        (#{order.userId,jdbcType=INTEGER}, #{order.memberId,jdbcType=BIGINT}, #{order.couponId,jdbcType=BIGINT}, #{order.orderSn,jdbcType=VARCHAR}, 
+        #{order.createTime,jdbcType=TIMESTAMP}, #{order.memberUsername,jdbcType=VARCHAR}, #{order.totalAmount,jdbcType=DECIMAL}, 
+        #{order.payAmount,jdbcType=DECIMAL}, #{order.freightAmount,jdbcType=DECIMAL}, #{order.promotionAmount,jdbcType=DECIMAL}, 
+        #{order.integrationAmount,jdbcType=DECIMAL}, #{order.couponAmount,jdbcType=DECIMAL}, #{order.discountAmount,jdbcType=DECIMAL}, 
+        #{order.payType,jdbcType=INTEGER}, #{order.sourceType,jdbcType=INTEGER}, #{order.status,jdbcType=INTEGER}, 
+        #{order.orderType,jdbcType=INTEGER}, #{order.deliveryCompany,jdbcType=VARCHAR}, #{order.deliverySn,jdbcType=VARCHAR}, 
+        #{order.autoConfirmDay,jdbcType=INTEGER}, #{order.integration,jdbcType=INTEGER}, #{order.growth,jdbcType=INTEGER}, 
+        #{order.promotionInfo,jdbcType=VARCHAR}, #{order.billType,jdbcType=INTEGER}, #{order.billHeader,jdbcType=VARCHAR}, 
+        #{order.billContent,jdbcType=VARCHAR}, #{order.billReceiverPhone,jdbcType=VARCHAR}, #{order.billReceiverEmail,jdbcType=VARCHAR}, 
+        #{order.receiverName,jdbcType=VARCHAR}, #{order.receiverPhone,jdbcType=VARCHAR}, #{order.receiverPostCode,jdbcType=VARCHAR}, 
+        #{order.receiverProvince,jdbcType=VARCHAR}, #{order.receiverCity,jdbcType=VARCHAR}, #{order.receiverRegion,jdbcType=VARCHAR}, 
+        #{order.receiverDetailAddress,jdbcType=VARCHAR}, #{order.note,jdbcType=VARCHAR}, #{order.confirmStatus,jdbcType=INTEGER}, 
+        #{order.deleteStatus,jdbcType=INTEGER}, #{order.useIntegration,jdbcType=INTEGER}, #{order.paymentTime,jdbcType=TIMESTAMP}, 
+        #{order.deliveryTime,jdbcType=TIMESTAMP}, #{order.receiveTime,jdbcType=TIMESTAMP}, #{order.commentTime,jdbcType=TIMESTAMP}, 
+        #{order.modifyTime,jdbcType=TIMESTAMP})    
+      </foreach>
+  </insert>
+
+
   <insert id="insertSelective" parameterType="com.xhm.fz.entity.Order">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
@@ -644,7 +692,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.xhm.fz.entity.Order">
-    update order
+    update `order`
     <set>
       <if test="memberId != null">
         member_id = #{memberId,jdbcType=BIGINT},

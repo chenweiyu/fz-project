@@ -103,7 +103,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from order_item
     where id = #{id,jdbcType=BIGINT}
@@ -137,6 +137,30 @@
       #{integrationAmount,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, #{giftIntegration,jdbcType=INTEGER}, 
       #{giftGrowth,jdbcType=INTEGER}, #{clothingAttr,jdbcType=VARCHAR})
   </insert>
+
+  <insert id="insertBatchOrderItem" useGeneratedKeys="true" parameterType="java.util.List">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_item (order_id, order_sn, clothing_id, 
+      clothing_pic, clothing_name, clothing_brand, 
+      clothing_sn, clothing_price, clothing_quantity, 
+      clothing_sku_id, clothing_sku_code, clothing_category_id, 
+      promotion_name, promotion_amount, coupon_amount, 
+      integration_amount, real_amount, gift_integration, 
+      gift_growth, clothing_attr)
+    values
+    <foreach collection="list" item="orderItem" index="index" separator=",">
+      (#{orderItem.orderId,jdbcType=BIGINT}, #{orderItem.orderSn,jdbcType=VARCHAR}, #{orderItem.clothingId,jdbcType=BIGINT}, 
+      #{orderItem.clothingPic,jdbcType=VARCHAR}, #{orderItem.clothingName,jdbcType=VARCHAR}, #{orderItem.clothingBrand,jdbcType=VARCHAR}, 
+      #{orderItem.clothingSn,jdbcType=VARCHAR}, #{orderItem.clothingPrice,jdbcType=DECIMAL}, #{orderItem.clothingQuantity,jdbcType=INTEGER}, 
+      #{orderItem.clothingSkuId,jdbcType=BIGINT}, #{orderItem.clothingSkuCode,jdbcType=VARCHAR}, #{orderItem.clothingCategoryId,jdbcType=BIGINT}, 
+      #{orderItem.promotionName,jdbcType=VARCHAR}, #{orderItem.promotionAmount,jdbcType=DECIMAL}, #{orderItem.couponAmount,jdbcType=DECIMAL}, 
+      #{orderItem.integrationAmount,jdbcType=DECIMAL}, #{orderItem.realAmount,jdbcType=DECIMAL}, #{orderItem.giftIntegration,jdbcType=INTEGER}, 
+      #{orderItem.giftGrowth,jdbcType=INTEGER}, #{orderItem.clothingAttr,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
   <insert id="insertSelective" parameterType="com.xhm.fz.entity.OrderItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()

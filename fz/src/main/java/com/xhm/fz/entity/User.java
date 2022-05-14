@@ -1,13 +1,14 @@
 package com.xhm.fz.entity;
 
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Data;
 
 /**
  * @Author xhm
@@ -15,15 +16,17 @@ import java.util.List;
  */
 @Data
 public class User implements UserDetails {
-    private Long id;             //主键
+    private Integer id;             //主键
     private String username;     //用户名
     private String password;     //密码
     private String nickname;     //昵称
     private boolean enabled;     //是否禁用
     private List<Role> roles;    //用户角色
+    private String phone;
     private String email;        //邮箱
+    private String sex;
     private String userface;     //头像
-    private Timestamp regTime;   //注册时间
+    private Date regTime;   //注册时间
     private Integer state;
 
     @Override

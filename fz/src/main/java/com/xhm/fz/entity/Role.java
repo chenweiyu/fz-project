@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Role implements Serializable {
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty(value = "名称")
     private String name;
@@ -13,24 +13,19 @@ public class Role implements Serializable {
     @ApiModelProperty(value = "描述")
     private String description;
 
-    @ApiModelProperty(value = "后台用户数量")
-    private Integer adminCount;
-
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
     @ApiModelProperty(value = "启用状态：0->禁用；1->启用")
     private Integer status;
 
-    private Integer sort;
-
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,14 +45,6 @@ public class Role implements Serializable {
         this.description = description;
     }
 
-    public Integer getAdminCount() {
-        return adminCount;
-    }
-
-    public void setAdminCount(Integer adminCount) {
-        this.adminCount = adminCount;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -74,14 +61,6 @@ public class Role implements Serializable {
         this.status = status;
     }
 
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -91,10 +70,8 @@ public class Role implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", description=").append(description);
-        sb.append(", adminCount=").append(adminCount);
         sb.append(", createTime=").append(createTime);
         sb.append(", status=").append(status);
-        sb.append(", sort=").append(sort);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

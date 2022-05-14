@@ -47,6 +47,13 @@ public class OrderReturnReasonServiceImpl implements OrderReturnReasonService {
     }
 
     @Override
+    public List<OrderReturnReason> usefulList() {
+        OrderReturnReasonExample example = new OrderReturnReasonExample();
+        example.setOrderByClause("sort desc");
+        return returnReasonMapper.selectByUserfulExample(example);
+    }
+
+    @Override
     public int updateStatus(List<Long> ids, Integer status) {
         if(!status.equals(0)&&!status.equals(1)){
             return 0;

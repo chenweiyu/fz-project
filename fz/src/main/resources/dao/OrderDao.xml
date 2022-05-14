@@ -87,4 +87,28 @@
             o.id = #{id}
         ORDER BY oi.id ASC,oh.create_time DESC
     </select>
+    <select id="getUserOrder" resultMap="orderDetailResultMap">
+        SELECT o.*,
+            oi.id item_id,
+            oi.clothing_id item_clothing_id,
+            oi.clothing_sn item_clothing_sn,
+            oi.clothing_pic item_clothing_pic,
+            oi.clothing_name item_clothing_name,
+            oi.clothing_brand item_clothing_brand,
+            oi.clothing_price item_clothing_price,
+            oi.clothing_quantity item_clothing_quantity,
+            oi.clothing_attr item_clothing_attr,
+            oh.id history_id,
+            oh.operate_man history_operate_man,
+            oh.create_time history_create_time,
+            oh.order_status history_order_status,
+            oh.note history_note
+        FROM
+            `order` o
+            LEFT JOIN order_item oi ON o.id = oi.order_id
+            LEFT JOIN order_operate_history oh ON o.id = oh.order_id
+        WHERE
+            o.user_id = #{userId}
+        ORDER BY oi.id ASC,oh.create_time DESC
+    </select>
 </mapper>
