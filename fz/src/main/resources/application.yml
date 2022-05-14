@@ -69,8 +69,8 @@ jwt:
 aliyun:
   oss:
     endpoint: oss-cn-shenzhen.aliyuncs.com # oss对外服务的访问域名
-    accessKeyId: LTAI5t9eeRgji4pYeKQTkMP9 # 访问身份验证中用到用户标识
-    accessKeySecret: K6Z5hMabzPXHxNMUBpjSCK5PtHOL57  # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    accessKeyId: xiaohamao # 访问身份验证中用到用户标识
+    accessKeySecret: xiaohamao  # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
     bucketName: clothing-xhm # oss的存储空间
     policy:
       expire: 300 # 签名有效期(S)
